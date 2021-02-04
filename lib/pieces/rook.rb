@@ -1,4 +1,6 @@
 # the queen piece, can move horizontally or vertically as many squares as it wants
+require_relative './piece'
+
 class Rook < Piece
 
   def initialize(color, symbol)
