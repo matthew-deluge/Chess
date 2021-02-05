@@ -10,4 +10,6 @@ class Rook < Piece
   def valid_move?(initial, final)
     initial[0] == final[0] || initial[1] == final[1]
   end
+
+  def generate_path(initial, final)
 end
