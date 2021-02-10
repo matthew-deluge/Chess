@@ -33,10 +33,23 @@ class Board
     node_array.each {|square| square.piece = piece if square.coord == coord}
   end
 
+  def clear_path?(piece, initial_square, final_square)
+    path = piece.generate_path(initial_square, final_square)
+    print path
+    print path[1..-2]
+    path[1..-2].each do |coord|
+      square = find_square(coord)
+      return false unless square.piece.nil?
+    end
+    true
+  end
+
+  private
+
+  def find_square(coord)
+    @node_array.each do |square|
+      return square if square.coord == coord
+    end
+  end
+
 end
-
-board = Board.new
-print board.coord_array
-board.add_piece([1,1], Rook.new('white', 'R'))
-print board.node_array
-

@@ -13,9 +13,8 @@ class Rook < Piece
 
   def generate_path(initial, final)
     # creates the array of moves to get from one square to another
-    return false if !self.valid_move?(initial, final)
+    return false unless self.valid_move?(initial, final)
     
-    path = []
     if initial[0] == final[0]
       generate_rank_path(initial, final)
     else
