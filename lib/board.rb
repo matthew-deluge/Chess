@@ -2,12 +2,16 @@
 
 require_relative "./square"
 require_relative "./pieces/rook.rb"
+require_relative './arrangement.rb'
+
 class Board
+  include Arrangement
   attr_accessor :node_array, :coord_array
 
   def initialize
     @coord_array = create_array(8)
     @node_array = create_board
+    @captured_pieces = []
   end
 
   def create_array(n)
@@ -29,6 +33,21 @@ class Board
     board
   end
 
+  def print_board
+    @node_array.each do |square|
+      print square.coord
+      print ":"
+      print square.piece + "/n"
+    end
+  end
+
+  def set_pieces
+    Arrangement::SET_UP_HASH.each do |piece|
+      add_piece(piece[:coord], piece[:piece])
+    end
+  end
+
+
   def add_piece(coord, piece)
     node_array.each {|square| square.piece = piece if square.coord == coord}
   end
@@ -43,8 +62,6 @@ class Board
     end
     true
   end
-
-  private
 
   def find_square(coord)
     @node_array.each do |square|

@@ -10,10 +10,10 @@ class Square
   end
 
   def occupied?
-    !@piece == nil
+    !@piece.nil?
   end
 
   private
-  attr_writer :coordinates
+  attr_writer :coord
 
 end

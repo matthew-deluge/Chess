@@ -29,7 +29,7 @@ describe Rook do
     context 'when passed a longer move' do
       it 'returns every square in that move' do
         path = rook.generate_path([1,1],[8,1])
-        expect(path).to eq([[1,1], [2,1], [3,1], [4,1],[5,1], [6,1], [7,1], [8,1]])
+        expect(path).to eq([[1,1], [2,1], [3,1], [4,1], [5,1], [6,1], [7,1], [8,1]])
       end
     end
     context 'when passed a non-move' do
