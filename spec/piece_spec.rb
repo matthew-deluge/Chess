@@ -5,6 +5,21 @@
 require_relative '../lib/pieces/rook'
 
 describe Rook do
+
+  describe '#color' do
+    subject(:rook) {described_class.new('white' , 'R')}
+    it 'returns passed color' do
+      expect(rook.color).to eq('white')
+    end
+  end
+
+  describe '#symbol' do
+    subject(:rook) {described_class.new('white' , 'R')}
+    it 'returns passed color' do
+      expect(rook.symbol).to eq('R')
+    end
+  end
+
   describe '#valid_move?' do
     subject(:rook) {described_class.new('white','R')}
     it 'returns true for a vertical move' do

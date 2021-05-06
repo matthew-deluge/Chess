@@ -44,7 +44,7 @@ describe Board do
     context 'when calledd' do
       it 'puts correct pieces in place' do
         filled_board.set_pieces
-        expect(filled_board.find_square([1,1]).piece.color).to be('white')
+        expect(filled_board.find_square([1,1]).piece.symbol).to eq('♜')
       end
     end
   end
