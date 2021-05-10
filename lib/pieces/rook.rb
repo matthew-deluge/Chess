@@ -28,17 +28,25 @@ class Rook < Piece
     path = [initial]
     rank =  initial[1]
     until rank == final[1]
-      rank += 1
-      path.push([initial[0],rank])
+      if rank < final[1]
+        rank += 1
+      else
+        rank -= 1
+      end
+      path.push([initial[0], rank])
     end
     path
   end
 
   def generate_file_path(initial, final)
     path = [initial]
-    file = initial[0]
+    file = initial[0] 
     until file == final[0]
-      file += 1
+      if file < final[0] 
+        file += 1
+      else
+        file -= 1
+      end
       path.push([file, initial[1]])
     end
     path

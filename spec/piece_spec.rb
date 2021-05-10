@@ -53,5 +53,11 @@ describe Rook do
         expect(path).to eq(false)
       end
     end
+    context 'when passed a move down or left' do
+      it 'returns a valid path' do
+        path = rook.generate_path([3,1], [1,1])
+        expect(path).to eq([[3,1],[2,1],[1,1]])
+      end
+    end
   end
 end
