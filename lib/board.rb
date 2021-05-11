@@ -47,13 +47,22 @@ class Board
     end
   end
 
+  def find_square(coord)
+    @node_array.each {|square| return square if square.coord == coord}
+  end
+
   def add_piece(coord, piece)
     node_array.each {|square| square.piece = piece if square.coord == coord}
   end
 
   def clear_path?(origin_square, target_square)
     piece = find_square(origin_square).piece
-    return if piece.nil?
+    return false if piece.nil?
+
+    target_piece = find_square(target_square).piece
+    unless target_piece.nil?
+      return false if target_piece.color == piece.color
+    end
 
     path = piece.generate_path(origin_square, target_square)
     path[1..-2].each do |coord|
@@ -61,21 +70,30 @@ class Board
       return false unless square.piece.nil?
     end
     true
+  end 
+
+  def move(origin_coord, target_coord)
+    return unless clear_path?(origin_coord, target_coord)
+
+    if find_square(target_coord).piece.nil?
+      move_piece(origin_coord, target_coord)
+    else 
+      capture_piece(origin_coord, target_coord)
+    end
   end
+
+private 
 
   def move_piece(origin_coord, target_coord)
-    origin = find_square(origin_coord)
-    target = find_square(target_coord)
-    if clear_path?(origin.coord, target.coord)
-      target.piece = origin.piece
-      origin.piece = nil
-    end
+    find_square(target_coord).piece = find_square(origin_coord).piece
+    find_square(origin_coord).piece = nil
   end
 
-  def find_square(coord)
-    @node_array.each do |square|
-      return square if square.coord == coord
-    end
-  end
+  def capture_piece(origin_coord, target_coord)
+    capture = find_square(target_coord).piece
+    find_square(target_coord).piece = find_square(origin_coord).piece
+    find_square(origin_coord).piece = nil
+    capture
+  end 
 
 end

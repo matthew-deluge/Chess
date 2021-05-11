@@ -49,20 +49,20 @@ describe Board do
     end
   end
 
-  describe '#move_piece' do
+  describe '#move' do
     subject(:move_board) {described_class.new}
     context 'when path is open' do
       it 'moves the piece to the target square'do
         move_board.set_pieces
-        move_board.move_piece([1, 1], [1, 3])
+        move_board.move([1, 1], [1, 3])
         expect(move_board.find_square([1, 3]).piece.symbol).to eq('♜')
       end
     end
     context 'when path is not open' do
       it 'does nothing' do
         move_board.set_pieces
-        move_board.move_piece([1, 1], [1, 3])
-        move_board.move_piece([1,8], [1,1])
+        move_board.move([1, 1], [1, 3])
+        move_board.move([1,8], [1,1])
         expect(move_board.find_square([1,8]).piece.symbol).to eq('♖')
       end
     end  
