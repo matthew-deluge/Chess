@@ -66,5 +66,18 @@ describe Board do
         expect(move_board.find_square([1,8]).piece.symbol).to eq('♖')
       end
     end  
+    context 'when piece would be captured' do
+      it 'returns piece' do
+        move_board.set_pieces
+        capture = move_board.move([1, 1], [1, 8])
+        expect(capture.symbol).to eq('♖')
+      end
+      it 'replaces captured piece with capturing piece' do
+        move_board.set_pieces
+        move_board.move([1, 1], [1, 8])
+        expect(move_board.find_square([1,8]).piece.symbol).to eq('♜')
+      end
+    end
+
   end
 end
