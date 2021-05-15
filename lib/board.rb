@@ -3,9 +3,10 @@
 require_relative "./square"
 require_relative "./pieces/rook.rb"
 require_relative './arrangement.rb'
+require_relative './display.rb'
 
 class Board
-  include Arrangement
+  include Arrangement, Display
   attr_accessor :node_array, :coord_array
 
   def initialize
@@ -33,11 +34,13 @@ class Board
     board
   end
 
-  def print_board
+  def print_board_data
     @node_array.each do |square|
       print square.coord
       print ":"
-      print square.piece + "/n"
+      unless square.piece.nil?
+        print square.piece.symbol + "/n"
+      end
     end
   end
 
@@ -70,19 +73,19 @@ class Board
       return false unless square.piece.nil?
     end
     true
-  end 
+  end
 
   def move(origin_coord, target_coord)
     return unless clear_path?(origin_coord, target_coord)
 
     if find_square(target_coord).piece.nil?
       move_piece(origin_coord, target_coord)
-    else 
+    else
       capture_piece(origin_coord, target_coord)
     end
   end
 
-private 
+private
 
   def move_piece(origin_coord, target_coord)
     find_square(target_coord).piece = find_square(origin_coord).piece
@@ -93,7 +96,11 @@ private
     capture = find_square(target_coord).piece
     find_square(target_coord).piece = find_square(origin_coord).piece
     find_square(origin_coord).piece = nil
-    capture
-  end 
-
+    @captured_pieces.push(capture)
+  end
 end
+
+board = Board.new
+board. set_pieces
+board.print_board_data
+board.print_board(board)

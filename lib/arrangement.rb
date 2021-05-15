@@ -13,4 +13,7 @@ module Arrangement
       { piece: Rook.new('black', '♖'),
         coord: [8,8]}
       ]
+
+  WHITE_PIECE_ARRAY = ['♚','♛','♝','♞','♟','♜']
+  BLACK_PIECE_ARRAY = ['♗','♘','♙','♔','♕','♖']
 end
