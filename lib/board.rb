@@ -16,7 +16,7 @@ class Board
   end
 
   def create_array(n)
-    a = Array.new(n) { |index| index + 1  }
+    a = Array.new(n) { |index| index + 1 }
     board = []
     a.each do |i|
       a.each do |j|
@@ -39,8 +39,9 @@ class Board
       print square.coord
       print ":"
       unless square.piece.nil?
-        print square.piece.symbol + "/n"
+        print "#{square.piece.symbol}"
       end
+      print "\n"
     end
   end
 
