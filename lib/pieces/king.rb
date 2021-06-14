@@ -10,10 +10,20 @@ class King < Piece
     valid_vertical?(initial,final)||valid_horizontal?(initial,final)||valid_diaganol?(initial, final)
   end
 
-  def generate_path(initial, final)
-    [intial, final]
+  def generate_path(_initial, final)
+    [_intial, final]
   end
 
+  def check?(king_square, board)
+    board.node_array.each do |square|
+      next if square.piece.nil?
+
+      unless square.piece.color == @color
+        return true if square.piece.valid_move?(square.coord, king_square) && board.clear_path?(square.coord, king_square)
+      end
+    end
+    false
+  end
 
   private
 
