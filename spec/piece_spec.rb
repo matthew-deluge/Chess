@@ -1,8 +1,7 @@
 # rspec file to test the pieces
 
-# Rook test
-
 require_relative '../lib/pieces/rook'
+require_relative '../lib/pieces/king'
 
 describe Rook do
 
@@ -55,9 +54,39 @@ describe Rook do
     end
     context 'when passed a move down or left' do
       it 'returns a valid path' do
-        path = rook.generate_path([3,1], [1,1])
+        path = rook.generate_path([3,1],[1,1])
         expect(path).to eq([[3,1],[2,1],[1,1]])
       end
     end
   end
 end
+
+describe King do
+  describe 'valid_move?' do
+    subject(:king) {described_class.new('white', 'K')}
+    it 'returns true for a vertical move up' do
+      expect(king.valid_move?([1,1], [1,2])).to be(true)
+    end
+    it 'returns true for a vertical move down' do
+      expect(king.valid_move?([2,2], [2,1])).to be(true)
+    end
+    it 'returns true for a horizontal move right' do
+      expect(king.valid_move?([1,1], [2,1])).to be(true)
+    end
+    it 'returns true for a horizontal move left' do
+      expect(king.valid_move?([3,3], [2,3])).to be(true)
+    end
+    it 'returns true for an upward diagnol move' do
+      expect(king.valid_move?([1,1],[2,2])).to be(true)
+    end
+    it 'returns true for a downward diagnol move' do
+      expect(king.valid_move?([3,3], [2,4])).to be(true)
+    end
+    it 'returns false for a two space move' do
+      expect(king.valid_move?([1,1], [1,5])).to be(false)
+    end
+  end
+end
+
+
+
