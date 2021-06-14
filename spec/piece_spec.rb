@@ -1,5 +1,6 @@
 # rspec file to test the pieces
 
+require_relative '../lib/board'
 require_relative '../lib/pieces/rook'
 require_relative '../lib/pieces/king'
 
@@ -84,6 +85,28 @@ describe King do
     end
     it 'returns false for a two space move' do
       expect(king.valid_move?([1,1], [1,5])).to be(false)
+    end
+  end
+
+  describe 'check?' do
+    subject(:king) {described_class.new('white', 'K')}
+
+    it 'returns true if square is threatened' do
+      board = Board.new
+      board.add_piece([1,1], Rook.new('black', 'r'))
+      expect(king.check?([1,2], board)).to be(true)
+    end
+
+    it 'returns false if a safe square' do
+      board = Board.new
+      board.add_piece([1,1], Rook.new('black', 'r'))
+      expect(king.check?([3,3], board)).to be(false)
+    end
+
+    it 'returns false if threatned by same color piece' do
+      board = Board.new
+      board.add_piece([3,3], Rook.new('white', 'r'))
+      expect(king.check?([3,4], board)).to be(false)
     end
   end
 end
