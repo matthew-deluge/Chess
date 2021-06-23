@@ -1,13 +1,15 @@
 # board class, creates a set of nodes and populates them with pieces
 
-require_relative "./square"
-require_relative "./pieces/rook.rb"
-require_relative './arrangement.rb'
-require_relative './display.rb'
+require_relative './square'
+require_relative './pieces/rook'
+require_relative './pieces/king'
+require_relative './arrangement'
+require_relative './display'
 
 class Board
+
   include Arrangement, Display
-  attr_accessor :node_array, :coord_array
+  attr_accessor :node_array, :coord_array, :captured_pieces
 
   def initialize
     @coord_array = create_array(8)
@@ -59,6 +61,21 @@ class Board
     node_array.each {|square| square.piece = piece if square.coord == coord}
   end
 
+  def copy_board
+    new_board = Board.new
+    node_array.each do |old_square|
+      next if old_square.piece.nil?
+
+      new_board.node_array.each do |new_square|
+        if old_square.coord == new_square.coord
+          new_square.piece = old_square.piece.duplicate
+        end
+      end
+    end
+    new_board
+  end
+    
+
   def clear_path?(origin_square, target_square)
     piece = find_square(origin_square).piece
     return false if piece.nil?
@@ -101,7 +118,7 @@ private
   end
 end
 
-board = Board.new
-board. set_pieces
-board.print_board_data
-board.print_board(board)
+#board = Board.new
+#board. set_pieces
+#board.print_board_data
+#board.print_board(board)

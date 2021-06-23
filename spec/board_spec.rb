@@ -49,6 +49,15 @@ describe Board do
     end
   end
 
+  describe '#copy_board' do
+    subject(:board_to_copy) {described_class.new}
+    it 'creates a copy with the same pieces' do
+      board_to_copy.add_piece([1,1], Rook.new('white','r'))
+      copied_board = board_to_copy.copy_board
+      expect(copied_board.find_square([1, 1]).piece.symbol).to eq('r')
+    end
+  end
+
   describe '#move' do
     subject(:move_board) {described_class.new}
     context 'when path is open' do
@@ -69,8 +78,8 @@ describe Board do
     context 'when piece would be captured' do
       it 'returns piece' do
         move_board.set_pieces
-        capture = move_board.move([1, 1], [1, 8])
-        expect(capture.symbol).to eq('♖')
+        move_board.move([1, 1], [1, 8])
+        expect(move_board.captured_pieces[0].symbol).to eq('♖')
       end
       it 'replaces captured piece with capturing piece' do
         move_board.set_pieces
