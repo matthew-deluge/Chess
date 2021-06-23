@@ -2,6 +2,11 @@
 require_relative './piece'
 # rook class, can move any number of spaces on either the rank or file it is currently on
 class Rook < Piece
+
+  def duplicate
+    new_rook = Rook.new(@color, @symbol)
+  end
+  
   def valid_move?(initial, final)
     return false if final[0] <= 0 || final[1] <= 0
     initial[0] == final[0] || initial[1] == final[1]
