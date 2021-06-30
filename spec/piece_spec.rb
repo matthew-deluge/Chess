@@ -94,20 +94,64 @@ describe King do
     it 'returns true if square is threatened' do
       board = Board.new
       board.add_piece([1,1], Rook.new('black', 'r'))
+      board.add_piece([1,2], king)
       expect(king.check?([1,2], board)).to be(true)
     end
 
     it 'returns false if a safe square' do
       board = Board.new
       board.add_piece([1,1], Rook.new('black', 'r'))
+      board.add_piece([3,3], king)
       expect(king.check?([3,3], board)).to be(false)
     end
 
     it 'returns false if threatned by same color piece' do
       board = Board.new
       board.add_piece([3,3], Rook.new('white', 'r'))
+      board.add_piece([3,4], king)
       expect(king.check?([3,4], board)).to be(false)
     end
+  end
+
+  describe 'checkmate?' do
+    subject(:checkmate_king) {described_class.new('white','K')}
+    
+    it 'returns true if king is checkmated' do
+      board = Board.new
+      board.add_piece([4,4], Rook.new('black','r'))
+      board.add_piece([5,4], Rook.new('black','r'))
+      board.add_piece([6,4], Rook.new('black','r'))
+      board.add_piece([5,1], checkmate_king)
+      expect(checkmate_king.checkmate?([5,1], board)).to be(true)
+    end
+
+    it 'returns false if king can flee' do
+      board = Board.new
+      board.add_piece([4,4], Rook.new('black','r'))
+      board.add_piece([4,1], checkmate_king)
+      expect(checkmate_king.checkmate?([4,1], board)).to be(false)
+    end
+
+    it 'returns false if there is a blocker' do
+      board = Board.new
+      board.add_piece([4,4], Rook.new('black','r'))
+      board.add_piece([5,4], Rook.new('black','r'))
+      board.add_piece([6,4], Rook.new('black','r'))
+      board.add_piece([6,2], Rook.new('white','r'))
+      board.add_piece([5,1], checkmate_king)
+      expect(checkmate_king.checkmate?([5,1], board)).to be(false)
+    end
+
+    it 'returns false if the threat can be removed' do
+      board = Board.new
+      board.add_piece([4,4], Rook.new('black','r'))
+      board.add_piece([5,4], Rook.new('black','r'))
+      board.add_piece([6,4], Rook.new('black','r'))
+      board.add_piece([5,5], Rook.new('white','r'))
+      board.add_piece([5,1], checkmate_king)
+      expect(checkmate_king.checkmate?([5,1], board)).to be(false)
+    end
+
   end
 end
 
