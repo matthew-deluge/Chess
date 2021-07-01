@@ -77,12 +77,12 @@ class Board
   
   def clear_path?(origin_square, target_square)
     piece = find_square(origin_square).piece
-    return false if piece.nil?
+    return false if piece.nil? || !piece.valid_move?(origin_square, target_square)
 
     target_piece = find_square(target_square).piece
     unless target_piece.nil?
       return false if target_piece.color == piece.color
-    end
+    end 
 
     path = piece.generate_path(origin_square, target_square)
     path[1..-2].each do |coord|

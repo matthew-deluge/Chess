@@ -60,6 +60,8 @@ class Game
 
 
   def convert_to_coordinates(input)
+    return input if input.is_a?(Array)
+
     split_input = input.strip.split(',')
     split_input.each_with_index { |number, index| split_input[index] = number.to_i }
     split_input
