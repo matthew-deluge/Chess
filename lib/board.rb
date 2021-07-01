@@ -54,11 +54,11 @@ class Board
   end
 
   def find_square(coord)
-    @node_array.each {|square| return square if square.coord == coord}
+    @node_array.each { |square| return square if square.coord == coord }
   end
 
   def add_piece(coord, piece)
-    node_array.each {|square| square.piece = piece if square.coord == coord}
+    node_array.each { |square| square.piece = piece if square.coord == coord}
   end
 
   def copy_board
@@ -74,8 +74,7 @@ class Board
     end
     new_board
   end
-    
-
+  
   def clear_path?(origin_square, target_square)
     piece = find_square(origin_square).piece
     return false if piece.nil?
@@ -117,8 +116,3 @@ private
     @captured_pieces.push(capture)
   end
 end
-
-#board = Board.new
-#board. set_pieces
-#board.print_board_data
-#board.print_board(board)
