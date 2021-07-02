@@ -23,9 +23,8 @@ class Game
 
   def player_move(player_color, board = @board)
     board.print_board(board)
-    player_piece = get_player_piece(player_color)
-    player_move = get_player_move(player_color, player_piece, board)
-    board.move(player_piece, player_move)
+    player_move = get_player_move(player_color, board)
+    board.move(player_move[0], player_move[1])
     board.print_board(board)
   end
 
@@ -43,19 +42,23 @@ class Game
     convert_to_coordinates(player_input)
   end
 
-  def get_player_move(player_color, player_piece, board=@board)
-    puts 'please enter the coordinates of where you want to move your piece'
-    player_input = gets.chomp
-    until valid_response?(player_input)
-      puts 'please enter the coordinates as two numbers seperated by a comma'
+  def get_player_move(player_color, board=@board)
+    player_piece = get_player_piece(player_color)
+    puts 'Please enter the coordinates of where you want to move your piece'
+    player_input = [player_piece, gets.chomp]
+    until valid_response?(player_input[1])
+      puts 'Please enter the coordinates as two numbers seperated by a comma'
       player_input = gets.chomp
     end
-    puts "the possible move is #{player_piece} to #{convert_to_coordinates(player_input)}"
-    until board.clear_path?(player_piece, convert_to_coordinates(player_input))
-      puts 'please enter a valid destination'
-      player_input = get_player_move(player_color, player_piece, board)
+    until board.clear_path?(player_input[0], convert_to_coordinates(player_input[1]))
+      puts 'Invalid destination'
+      player_input = get_player_move(player_color, board)
     end
-    convert_to_coordinates(player_input)
+    while move_in_check?(player_color, player_input[0], convert_to_coordinates(player_input[1]), board)
+      puts 'Illegal move: king in check'
+      player_input = get_player_move(player_color, board)
+    end
+    [player_input[0], convert_to_coordinates(player_input[1])]
   end
 
 
@@ -76,6 +79,18 @@ class Game
     end
     false
   end
+
+  def move_in_check?(player_color, player_piece, player_move, board=@board)
+    board_copy = board.copy_board
+    board_copy.move(player_piece, player_move)
+    board_copy.node_array.each do |square|
+      if (!square.piece.nil?) && square.piece.is_a?(King)
+          return true if square.piece.check?(square.coord, board_copy) && square.piece.color == player_color
+      end
+    end
+    false
+  end
+
 
   def checkmate?
     @board.node_array.each do |square|
