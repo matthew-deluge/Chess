@@ -3,6 +3,7 @@
 require_relative './square'
 require_relative './pieces/rook'
 require_relative './pieces/king'
+require_relative './pieces/bishop'
 require_relative './arrangement'
 require_relative './display'
 

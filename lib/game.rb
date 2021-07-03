@@ -1,6 +1,6 @@
 # game class, creates a new board and allows for the movement and capture of pieces
 
-require_relative "./lib/board.rb"
+require_relative "./board.rb"
 
 
 class String
@@ -9,7 +9,7 @@ class String
   end
 end
 
-
+# class with the game loop and win conditions
 class Game
 
   attr_accessor :board, :white_captured, :black_captured
@@ -61,7 +61,6 @@ class Game
     [player_input[0], convert_to_coordinates(player_input[1])]
   end
 
-
   def convert_to_coordinates(input)
     return input if input.is_a?(Array)
 
@@ -84,7 +83,7 @@ class Game
     board_copy = board.copy_board
     board_copy.move(player_piece, player_move)
     board_copy.node_array.each do |square|
-      if (!square.piece.nil?) && square.piece.is_a?(King)
+      if !square.piece.nil? && square.piece.is_a?(King)
           return true if square.piece.check?(square.coord, board_copy) && square.piece.color == player_color
       end
     end
