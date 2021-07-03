@@ -4,7 +4,7 @@ require_relative './piece'
 class Rook < Piece
 
   def duplicate
-    new_rook = Rook.new(@color, @symbol)
+    Rook.new(@color, @symbol)
   end
   
   def valid_move?(initial, final)
