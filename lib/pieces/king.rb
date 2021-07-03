@@ -10,7 +10,7 @@ class King < Piece
   end
 
   def valid_move?(initial, final)
-    return false if final[0] <= 0 || final[1] <= 0
+    return false if final[0] <= 0 || final[1] <= 0 || initial == final
 
     valid_vertical?(initial,final)||valid_horizontal?(initial,final)||valid_diaganol?(initial, final)
   end
@@ -31,9 +31,9 @@ class King < Piece
   end
 
   def checkmate?(king_square, board)
-  return false unless check?(king_square, board)
+    return false unless check?(king_square, board)
 
-  no_available_moves?(king_square, board) && no_escape_path?(king_square, board)
+    no_available_moves?(king_square, board) && no_escape_path?(king_square, board)
   end
 
   private

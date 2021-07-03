@@ -8,7 +8,7 @@ class Rook < Piece
   end
   
   def valid_move?(initial, final)
-    return false if final[0] <= 0 || final[1] <= 0
+    return false if final[0] <= 0 || final[1] <= 0 || initial == final
     initial[0] == final[0] || initial[1] == final[1]
   end
 
