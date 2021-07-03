@@ -3,6 +3,7 @@
 require_relative '../lib/board'
 require_relative '../lib/pieces/rook'
 require_relative '../lib/pieces/king'
+require_relative '../lib/pieces/bishop'
 
 describe Rook do
 
@@ -154,6 +155,63 @@ describe King do
 
   end
 end
+
+describe Bishop do 
+  describe "#valid_move?" do
+    subject(:move_bishop) { described_class.new('white', 'b') }
+
+    it "returns true for an up left move" do
+      result = move_bishop.valid_move?([2,2],[3,3])
+      expect(result).to be(true)
+    end
+
+    it "returns true for an up right move" do
+      result = move_bishop.valid_move?([2,2],[1,3])
+      expect(result).to be(true)
+    end
+
+    it "returns true for a down right move" do
+      result = move_bishop.valid_move?([5,5],[1,1])
+      expect(result).to be(true)
+    end
+
+    it "returns true for a down left move" do
+      result = move_bishop.valid_move?([5,5],[3,7])
+      expect(result).to be(true)
+    end
+
+    it 'returns false for a non-move' do
+      result = move_bishop.valid_move?([2,2],[4,7])
+      expect(result).to be(false)
+    end
+  end
+
+  describe "generate_path" do
+    subject(:path_bishop) { described_class.new('white', 'b') }
+
+    it 'correctly plots up left path' do
+      path = path_bishop.generate_path([1,1], [4,4])
+      expect(path).to eq([[1,1], [2,2], [3,3], [4,4]])
+    end
+
+    it 'correctly plots down right path' do
+      path = path_bishop.generate_path([5,6], [2,3])
+      expect(path).to eq([[5,6], [4,5], [3,4], [2,3]])
+    end
+
+    it 'correctly plots up right path' do
+      path = path_bishop.generate_path([4,5], [1,8])
+      expect(path).to eq([[4,5], [3,6], [2,7], [1,8]])
+    end
+
+    it 'correctly plots down left path' do
+      path = path_bishop.generate_path([4,5], [6,3])
+      expect(path).to eq([[4,5], [5,4], [6,3]])
+    end
+  end
+
+end
+
 
 
 
