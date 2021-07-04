@@ -4,6 +4,7 @@ require_relative '../lib/board'
 require_relative '../lib/pieces/rook'
 require_relative '../lib/pieces/king'
 require_relative '../lib/pieces/bishop'
+require_relative '../lib/pieces/queen'
 
 describe Rook do
 
@@ -186,7 +187,7 @@ describe Bishop do
     end
   end
 
-  describe "generate_path" do
+  describe "#generate_path" do
     subject(:path_bishop) { described_class.new('white', 'b') }
 
     it 'correctly plots up left path' do
@@ -209,9 +210,99 @@ describe Bishop do
       expect(path).to eq([[4,5], [5,4], [6,3]])
     end
   end
-
 end
 
+describe Queen do
 
+  describe '#valid_move?' do
+    subject(:move_queen) {described_class.new('white','Q')}
+    it 'returns true for a vertical move' do
+      expect(move_queen.valid_move?([1, 1], [1, 2])).to be(true)
+    end
+    it 'returns true for a horizontal move' do
+      expect(move_queen.valid_move?([1, 1], [4, 1])).to be(true)
+    end
+    it "returns true for an up left move" do
+      result = move_queen.valid_move?([2,2],[3,3])
+      expect(result).to be(true)
+    end
+
+    it "returns true for an up right move" do
+      result = move_queen.valid_move?([2,2],[1,3])
+      expect(result).to be(true)
+    end
+
+    it "returns true for a down right move" do
+      result = move_queen.valid_move?([5,5],[1,1])
+      expect(result).to be(true)
+    end
+
+    it "returns true for a down left move" do
+      result = move_queen.valid_move?([5,5],[3,7])
+      expect(result).to be(true)
+    end
+
+    it 'returns false for a non-horizontal, vertical, or diaganol move' do
+      expect(move_queen.valid_move?([1, 1], [3, 4])).to be(false)
+    end
+
+    it 'returns false for a non-move' do
+      result = move_queen.valid_move?([2,2],[4,7])
+      expect(result).to be(false)
+    end
+  end
+
+  describe "#generate_path" do
+    subject(:path_queen) { described_class.new('black', 'Q') }
+
+    context 'when passed a one square move' do
+      it 'returns an array with the initial and final move' do
+        path = path_queen.generate_path([1,1],[1,2])
+        expect(path).to eq([[1,1],[1,2]])
+      end
+    end
+
+    context 'when passed a longer move' do
+      it 'returns every square in that move' do
+        path = path_queen.generate_path([1,1],[8,1])
+        expect(path).to eq([[1,1], [2,1], [3,1], [4,1], [5,1], [6,1], [7,1], [8,1]])
+      end
+    end
+
+    context 'when passed a non-move' do
+      it 'returns false' do
+        path = path_queen.generate_path([2,2],[3,7])
+        expect(path).to eq(false)
+      end
+    end
+
+    context 'when passed a move down or left' do
+      it 'returns a valid path' do
+        path = path_queen.generate_path([3,1],[1,1])
+        expect(path).to eq([[3,1],[2,1],[1,1]])
+      end
+    end
+
+    it 'correctly plots up left path' do
+      path = path_queen.generate_path([1,1], [4,4])
+      expect(path).to eq([[1,1], [2,2], [3,3], [4,4]])
+    end
+
+    it 'correctly plots down right path' do
+      path = path_queen.generate_path([5,6], [2,3])
+      expect(path).to eq([[5,6], [4,5], [3,4], [2,3]])
+    end
+
+    it 'correctly plots up right path' do
+      path = path_queen.generate_path([4,5], [1,8])
+      expect(path).to eq([[4,5], [3,6], [2,7], [1,8]])
+    end
+
+    it 'correctly plots down left path' do
+      path = path_queen.generate_path([4,5], [6,3])
+      expect(path).to eq([[4,5], [5,4], [6,3]])
+    end
+  end
+end
 
 
