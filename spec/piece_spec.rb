@@ -5,6 +5,7 @@ require_relative '../lib/pieces/rook'
 require_relative '../lib/pieces/king'
 require_relative '../lib/pieces/bishop'
 require_relative '../lib/pieces/queen'
+require_relative '../lib/pieces/knight'
 
 describe Rook do
 
@@ -301,6 +302,22 @@ describe Queen do
     it 'correctly plots down left path' do
       path = path_queen.generate_path([4,5], [6,3])
       expect(path).to eq([[4,5], [5,4], [6,3]])
+    end
+  end
+end
+
+describe Knight do
+  describe '#valid_move?' do
+    subject(:move_knight) { described_class.new('black','N') }
+
+    it 'returns true for a valid knight move' do
+      result = move_knight.valid_move?( [3,3], [4,5] )
+      expect(result).to be(true)
+    end
+
+    it 'returns false for an invalid knight move' do
+      result = move_knight.valid_move?( [1,1], [6,7] )
+      expect(result).to be(false)
     end
   end
 end
