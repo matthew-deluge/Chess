@@ -9,8 +9,8 @@ class King < Piece
     new_piece
   end
 
-  def valid_move?(initial, final)
-    return false if final[0] <= 0 || final[1] <= 0 || initial == final
+  def valid_move?(initial, final, _board = nil)
+    return false unless valid_input?(initial, final)
 
     valid_vertical?(initial,final)||valid_horizontal?(initial,final)||valid_diaganol?(initial, final)
   end

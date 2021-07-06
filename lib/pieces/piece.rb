@@ -10,4 +10,8 @@ class Piece
   def valid_move?
     false
   end
+
+  def valid_input?(initial, final)
+    final[0] > 0 || final[1] > 0 || final[0] < 9 || final[1] < 9 || initial != final
+  end
 end

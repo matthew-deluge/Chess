@@ -90,7 +90,6 @@ class Game
     false
   end
 
-
   def checkmate?
     @board.node_array.each do |square|
       unless square.piece.nil?
@@ -99,7 +98,7 @@ class Game
         end
       end
     end
-  false
+    false
   end
 
   def play

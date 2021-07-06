@@ -6,10 +6,8 @@ class Bishop < Piece
     Bishop.new(@color, @symbol)
   end
 
-  def valid_move?(initial, final)
-    return false if final[0] <= 0 || final[1] <= 0 || final[0] >=9 || final[1] >= 9
-
-    return false if final[0] == initial[0] && final[1] == initial[1]
+  def valid_move?(initial, final, _board = nil)
+    return false unless valid_input?(initial, final)
     
     (initial[0]-final[0]).abs - (initial[1]-final[1]).abs == 0
   end

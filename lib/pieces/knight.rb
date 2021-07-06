@@ -7,8 +7,9 @@ class Knight < Piece
     Knight.new(@color, @symbol)
   end
   
-  def valid_move?(initial, final)
-    return false if final[0] <= 0 || final[1] <= 0 || final[0] >= 9 || final[1] >=9 || initial == final
+  def valid_move?(initial, final, _board = nil)
+    return false unless valid_input?(initial, final)
+
     first_diff = initial[0] - final[0]
     second_diff = initial[1] - final[1]
     if first_diff.abs == 2 && second_diff.abs == 1 || first_diff.abs == 1 && second_diff.abs == 2
@@ -21,5 +22,6 @@ class Knight < Piece
   def generate_path(initial, final)
     [initial, final]
   end
+  
   
 end
