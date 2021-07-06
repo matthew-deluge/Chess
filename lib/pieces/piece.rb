@@ -1,10 +1,12 @@
 # Piece class, defines the main charateristics of the pieces on the chessboard
 class Piece
-  attr_accessor :color, :symbol
+  attr_accessor :color, :symbol, :moved, :just_moved
 
   def initialize(color, symbol)
     @color = color
     @symbol = symbol
+    @moved = false
+    @just_moved = false
   end
 
   def valid_move?

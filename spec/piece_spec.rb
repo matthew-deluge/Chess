@@ -6,6 +6,7 @@ require_relative '../lib/pieces/king'
 require_relative '../lib/pieces/bishop'
 require_relative '../lib/pieces/queen'
 require_relative '../lib/pieces/knight'
+require_relative '../lib/pieces/pawn'
 
 describe Rook do
 
@@ -318,6 +319,133 @@ describe Knight do
     it 'returns false for an invalid knight move' do
       result = move_knight.valid_move?( [1,1], [6,7] )
       expect(result).to be(false)
+    end
+  end
+end
+
+describe Pawn do
+
+  describe 'valid_move?' do
+    context 'when a white piece is moved' do
+      subject(:move_pawn) { described_class.new('white', 'P') }
+      it 'returns true if an unmoved piece if moved two clear squares forward' do
+        board = Board.new
+        board.add_piece([1,1], move_pawn)
+        result = move_pawn.valid_move?([1,1], [1,3], board)
+        expect(result).to be(true)
+      end
+
+      it 'returns true if an unmoved piece is moved one space' do
+        board = Board.new
+        board.add_piece([1,1], move_pawn)
+        result = move_pawn.valid_move?([1,1], [1,2], board)
+        expect(result).to be(true)
+      end
+
+      it 'returns false if a moved pawn tries to move two spaces' do
+        board = Board.new
+        board.add_piece([1,1], move_pawn)
+        move_pawn.moved = true
+        result = move_pawn.valid_move?([1,1], [1,3], board)
+        expect(result).to be(false)
+      end
+
+      it 'returns true if a moved pawn tries to move one space' do
+        board = Board.new
+        board.add_piece([1,1], move_pawn)
+        move_pawn.moved = true
+        result = move_pawn.valid_move?([1,1], [1,2], board)
+        expect(result).to be(true)
+      end
+
+      it 'returns false when piece is on move square' do
+        board = Board.new
+        board.add_piece([1,1], move_pawn)
+        board.add_piece([1,2], Rook.new('white', 'R'))
+        result = move_pawn.valid_move?([1,1], [1,2], board)
+        expect(result).to be(false)
+      end
+
+      it 'returns true when diagonally capturing' do
+        board = Board.new
+        board.add_piece([1,1], move_pawn)
+        board.add_piece([2,2], Rook.new('black', 'R'))
+        result = move_pawn.valid_move?([1,1], [2,2], board)
+        expect(result).to be(true)
+      end
+
+      it 'returns false when diagonally moving without capture' do
+        board = Board.new
+        board.add_piece([1,1], move_pawn)
+        result = move_pawn.valid_move?([1,1], [2,2], board)
+        expect(result).to be(false)
+      end
+
+      it 'returns false when same piece is on capture square' do
+        board = Board.new
+        board.add_piece([1,1], move_pawn)
+        board.add_piece([2,2], Rook.new('white', 'R'))
+        result = move_pawn.valid_move?([1,1], [2,2], board)
+        expect(result).to be(false)
+      end
+    end
+
+
+    context 'when a black piece is moved' do
+      subject(:move_pawn) { described_class.new('black', 'P') }
+      it 'returns true if an unmoved piece if moved two clear squares forward' do
+        board = Board.new
+        board.add_piece([8,8], move_pawn)
+        result = move_pawn.valid_move?([8,8], [8,6], board)
+        expect(result).to be(true)
+      end
+
+      it 'returns true if an unmoved piece is moved one space' do
+        board = Board.new
+        board.add_piece([8,8], move_pawn)
+        result = move_pawn.valid_move?([8,8], [8,7], board)
+        expect(result).to be(true)
+      end
+
+      it 'returns false if a moved pawn tries to move two spaces' do
+        board = Board.new
+        board.add_piece([8,8], move_pawn)
+        move_pawn.moved = true
+        result = move_pawn.valid_move?([8,8], [8,6], board)
+        expect(result).to be(false)
+      end
+
+      it 'returns true if a moved pawn tries to move one space' do
+        board = Board.new
+        board.add_piece([8,8], move_pawn)
+        move_pawn.moved = true
+        result = move_pawn.valid_move?([8,8], [8,7], board)
+        expect(result).to be(true)
+      end
+
+      it 'returns true when diagonally capturing' do
+        board = Board.new
+        board.add_piece([8,8], move_pawn)
+        board.add_piece([7,7], Rook.new('white', 'R'))
+        result = move_pawn.valid_move?([8,8], [7,7], board)
+        expect(result).to be(true)
+      end
+
+      it 'returns false when diagonally moving without capture' do
+        board = Board.new
+        board.add_piece([8,8], move_pawn)
+        result = move_pawn.valid_move?([8,8], [7,7], board)
+        expect(result).to be(false)
+      end
+    end
+  end
+
+  describe 'generate_path' do
+    subject(:path_pawn) { described_class.new('white', 'P') }
+
+    it 'returns the full path when moving two steps' do
+      path = path_pawn.generate_path([1,1], [1,3])
+      expect(path).to eq([[1,1],[1,2],[1,3]])
     end
   end
 end
