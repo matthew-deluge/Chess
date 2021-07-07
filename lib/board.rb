@@ -10,12 +10,13 @@ require_relative './display'
 class Board
 
   include Arrangement, Display
-  attr_accessor :node_array, :coord_array, :captured_pieces
+  attr_accessor :node_array, :coord_array, :captured_pieces, :move_array
 
   def initialize
     @coord_array = create_array(8)
     @node_array = create_board
     @captured_pieces = []
+    @move_array = []
   end
 
   def create_array(n)
@@ -78,7 +79,7 @@ class Board
   
   def clear_path?(origin_square, target_square)
     piece = find_square(origin_square).piece
-    return false if piece.nil? || !piece.valid_move?(origin_square, target_square)
+    return false if piece.nil? || !piece.valid_move?(origin_square, target_square, self)
 
     target_piece = find_square(target_square).piece
     unless target_piece.nil?
@@ -101,13 +102,8 @@ class Board
     else
       capture_piece(origin_coord, target_coord)
     end
-  end
-
-private
-
-  def move_piece(origin_coord, target_coord)
-    find_square(target_coord).piece = find_square(origin_coord).piece
-    find_square(origin_coord).piece = nil
+    find_square(target_coord).piece.moved = true
+    move_array.push([origin_coord, target_coord])
   end
 
   def capture_piece(origin_coord, target_coord)
@@ -116,4 +112,12 @@ private
     find_square(origin_coord).piece = nil
     @captured_pieces.push(capture)
   end
+
+  private
+
+  def move_piece(origin_coord, target_coord)
+    find_square(target_coord).piece = find_square(origin_coord).piece
+    find_square(origin_coord).piece = nil
+  end
+
 end

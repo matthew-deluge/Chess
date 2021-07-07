@@ -6,7 +6,6 @@ class Piece
     @color = color
     @symbol = symbol
     @moved = false
-    @just_moved = false
   end
 
   def valid_move?

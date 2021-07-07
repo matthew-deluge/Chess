@@ -437,17 +437,47 @@ describe Pawn do
         result = move_pawn.valid_move?([8,8], [7,7], board)
         expect(result).to be(false)
       end
+    end 
+
+    context 'when passed an enpassant move' do
+      subject(:ep_pawn) { described_class.new('white', 'P') }
+
+      it 'returns true' do
+        board = Board.new
+        board.add_piece([5,5], ep_pawn)
+        board.add_piece([6,7], Pawn.new('black', 'P'))
+        board.move([6,7], [6,5])
+        result = ep_pawn.valid_move?([5,5], [6,6], board)
+        expect(result).to be(true)
+      end
+
+      it 'removes the captured piece from the board' do
+        board = Board.new
+        board.add_piece([5,5], ep_pawn)
+        board.add_piece([6,7], Pawn.new('black', 'P'))
+        board.move([6,7], [6,5])
+        ep_pawn.valid_move?([5,5], [6,6], board)
+        piece = board.find_square([6,5]).piece
+        expect(piece).to be(nil)
+      end
     end
   end
 
   describe 'generate_path' do
-    subject(:path_pawn) { described_class.new('white', 'P') }
+    subject(:white_path_pawn) { described_class.new('white', 'P') }
+    subject(:black_path_pawn) { described_class.new( 'black','P' ) }
 
-    it 'returns the full path when moving two steps' do
-      path = path_pawn.generate_path([1,1], [1,3])
+    it 'returns the full path when moving two steps for white' do
+      path = white_path_pawn.generate_path([1,1], [1,3])
       expect(path).to eq([[1,1],[1,2],[1,3]])
     end
+
+    it 'returns the full path when moving two steps for white' do
+      path = black_path_pawn.generate_path([8,8], [8,6])
+      expect(path).to eq([[8,8],[8,7],[8,6]])
+    end
   end
+
 end
 
 

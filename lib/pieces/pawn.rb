@@ -1,7 +1,6 @@
 require_relative './piece'
 
-# pawn class, includes rules for en passant and diaganol capture
-
+# pawn class, includes rules for diagonal capture and double move
 class Pawn < Piece
 
   def duplicate
@@ -17,14 +16,22 @@ class Pawn < Piece
   end
 
   def generate_path(initial, final)
-    if final[1] == initial[1]+1
+    if (final[1] - initial[1]).abs == 1
       [initial, final]
-    elsif final[1] == initial[1]+2 && initial[0] == final[0]
+    elsif (final[1]-initial[1]).abs == 2 && initial[0] == final[0] # returns path if pawn moves two spaces
       if @color == 'white'
         [initial, [final[0], final[0]+1], final]
       elsif @color == 'black'
         [initial, [final[0], final[0]-1], final]
       end
+    end
+  end
+
+  def en_passant?(initial, final, board)
+    if @color == 'white'
+      white_en_passant?(initial, final, board)
+    elsif @color == 'black'
+      black_en_passant?(initial, final, board)
     end
   end
 
@@ -35,19 +42,51 @@ class Pawn < Piece
       if initial[0] == final[0]
         target_empty?(final, board)
       elsif initial[0] == final[0] +1 || initial[0] == final[0] - 1
-        opponent_on_target?(final, board)
+        opponent_on_target?(final, board) || white_en_passant?(initial, final, board)
       end
     elsif final[1] == initial[1]+2 && initial[0] == final[0]
       !@moved && target_empty?(final, board)
     end
   end
 
+  def white_en_passant?(initial, final, board)
+    return false unless initial[1] == 5
+
+    last_move = board.move_array.last()
+    target = board.find_square(last_move[1]).piece
+
+    if target.is_a?(Pawn) && last_move[1][1]+1 == final[1] && last_move[1][0] == final[0]
+      board.captured_pieces.push(target)
+      board.find_square(last_move[1]).piece = nil
+      true
+    else
+      false
+    end
+  end
+
+
+  def black_en_passant?(initial, final, board)
+    return false unless initial[1] == 4
+
+    last_move = board.move_array.last()
+    target = board.find_square(last_move[1]).piece
+    if target.is_a?(Pawn) && last_move[1][1] - 1 == final[1] && last_move[1][0] == final[0]
+      board.captured_pieces.push(target)
+      board.find_square(last_move[1]).piece = nil
+      true
+    else
+      false
+    end
+  end
+
+
+
   def black_valid_move? (initial, final, board)
     if final[1] == initial[1]-1
       if initial[0] == final[0]
         target_empty?(final, board)
       elsif initial[0] == final[0] +1 || initial[0] == final[0] - 1
-        opponent_on_target?(final, board)
+        opponent_on_target?(final, board) || black_en_passant?(initial, final, board)
       end
     elsif final[1] == initial[1]-2 && initial[0] == final[0]
       !@moved && target_empty?(final, board)
