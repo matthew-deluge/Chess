@@ -4,8 +4,16 @@
 module Display
 
   def print_board(board)
-    counter = 8
-    board.node_array.reverse.each do |square|
+    (8).downto(1) do |row_number|
+      row = []
+      board.node_array.reverse.each { |square| row.push(square) if square.coord[1] == row_number }
+      print_row(row, row_number)
+    end
+    puts " 8  7  6  5  4  3  2  1 \n".green
+  end
+
+  def print_row(row, row_number)
+    row.each do |square|
       if square.piece.nil?
         if (square.coord[0]+square.coord[1]).even?
           print " B ".light_blue
@@ -15,14 +23,8 @@ module Display
       else 
         print " #{square.piece.symbol} "
       end
-      if square.coord[1] == 1
-        print "  #{counter}".green
-        puts "\n"
-        puts"\n"
-        counter -= 1
-      end
     end
-    puts ' 8  7  6  5  4  3  2  1 '.green
+    puts " #{row_number}".green
   end
 
 end       
