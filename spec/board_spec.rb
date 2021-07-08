@@ -76,7 +76,7 @@ describe Board do
       end
     end  
     context 'when piece would be captured' do
-      it 'returns piece' do
+      xit 'returns piece' do
         move_board.set_pieces
         move_board.move([1, 1], [1, 8])
         expect(move_board.captured_pieces[0].symbol).to eq('♖')

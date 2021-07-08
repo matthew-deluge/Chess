@@ -157,6 +157,65 @@ describe King do
     end
 
   end
+
+  describe '#castle?' do
+    context 'When called on a white piece' do
+      subject(:castle_king) { described_class.new('white', 'K') }
+
+      it 'returns true if castling is an option on right side' do
+        board = Board.new
+        board.add_piece( [8,1], Rook.new('white', 'r') )
+        board.add_piece( [5,1], castle_king)
+        result = castle_king.castle?([5,1], [7,1], board)
+        expect(result).to be(true)
+      end
+
+      it 'returns true if castling is an option on left side' do
+        board = Board.new
+        board.add_piece( [1,1], Rook.new('white', 'r') )
+        board.add_piece( [5,1], castle_king)
+        result = castle_king.castle?([5,1], [3,1], board)
+        expect(result).to be(true)
+      end
+
+      it 'returns false if there is a piece blocking the way' do
+        board = Board.new
+        board.add_piece([1,1], Rook.new('white', 'r') )
+        board.add_piece([5,1], castle_king)
+        board.add_piece([3,1], Knight.new('white', 'n'))
+        result = castle_king.castle?([5,1], [3,1], board)
+        expect(result).to be(false)
+      end
+
+      it 'returns false if the Rook has moved' do
+        board = Board.new
+        test_rook = Rook.new('white', 'r')
+        test_rook.moved = true
+        board.add_piece( [1,1], test_rook )
+        board.add_piece( [5,1], castle_king)
+        result = castle_king.castle?([5,1], [3,1], board)
+        expect(result).to be(false)
+      end
+
+      it 'returns false if king would be in check' do
+        board = Board.new
+        board.add_piece( [8,1], Rook.new('white', 'r') )
+        board.add_piece( [5,1], castle_king)
+        board.add_piece([6,6], Rook.new('black', 'r') )
+        result = castle_king.castle?([5,1], [7,1], board)
+        expect(result).to be(false)
+      end
+
+      it 'returns false if the king has moved' do
+        board = Board.new
+        castle_king.moved = true
+        board.add_piece( [8,1], Rook.new('white', 'r') )
+        board.add_piece( [5,1], castle_king)
+        result = castle_king.castle?([5,1], [7,1], board)
+        expect(result).to be(false)
+      end
+    end
+  end
 end
 
 describe Bishop do 

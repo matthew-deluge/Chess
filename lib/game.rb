@@ -104,7 +104,6 @@ class Game
 
   def play
     #print instructions
-    #@board.print_board(@board)
     until checkmate?
       player_move('white')
       player_move('black')

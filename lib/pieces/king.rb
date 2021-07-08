@@ -9,10 +9,13 @@ class King < Piece
     new_piece
   end
 
-  def valid_move?(initial, final, _board = nil)
-    return false unless valid_input?(initial, final)
-
-    valid_vertical?(initial,final)||valid_horizontal?(initial,final)||valid_diaganol?(initial, final)
+  def valid_move?(initial, final, board = nil)
+    if castle?(initial, final, board)
+      castle_move(initial, final, board)
+      true
+    else
+      valid_vertical?(initial,final)||valid_horizontal?(initial,final)||valid_diaganol?(initial, final)
+    end
   end
 
   def generate_path(initial, final)
@@ -36,15 +39,54 @@ class King < Piece
     no_available_moves?(king_square, board) && no_escape_path?(king_square, board)
   end
 
+  def castle?(initial, final, board)
+    @color == 'white' ? rank = 1 : rank = 8
+    return false unless @moved == false
+
+    if final == [7, rank]
+      rook = board.find_square([8,rank]).piece
+      return false if rook.nil? || rook.moved == true
+
+      bishop_square = board.find_square([6,rank])
+      knight_square = board.find_square([7,rank])
+      return false unless bishop_square.piece.nil? && knight_square.piece.nil?
+
+      return castle_check?([[7,rank], [6,rank]], rank, board)
+
+    elsif final == [3, rank]
+      rook = board.find_square([1,rank]).piece
+      return false if rook.nil? || rook.moved == true
+
+      bishop_square = board.find_square([2,rank])
+      knight_square = board.find_square([3,rank])
+      queen_square = board.find_square([4, rank])
+      return false unless bishop_square.piece.nil? && knight_square.piece.nil?&&queen_square.piece.nil?
+
+      return castle_check?([[4, rank], [3,rank]], rank, board)
+    end
+    false
+  end
+
   private
+
+  def castle_check?(squares_to_check, rank, board)
+    squares_to_check.each do |square|
+      board_copy = board.copy_board
+      board_copy.find_square([5, rank]).piece = nil
+      test_king = duplicate
+      board_copy.add_piece(square, test_king)
+      board_copy.print_board(board_copy)
+      return false if test_king.check?(square, board_copy)
+    end
+    true
+  end
 
   def no_escape_path?(king_square, board)
     board.node_array.each do |square|
-      next unless valid_move?(king_square, square.coord) && board.clear_path?(king_square, square.coord)
+      next unless valid_move?(king_square, square.coord, board) && board.clear_path?(king_square, square.coord)
 
       dupe_board = board.copy_board
       dupe_board.move(king_square, square.coord)
-      
       return false unless check?(square.coord, dupe_board)
     end
     true
@@ -57,7 +99,7 @@ class King < Piece
       original_coord = square.coord
       board.node_array.each do |potential_square|
         potential_coord = potential_square.coord
-        next unless square.piece.valid_move?(original_coord, potential_coord)&&board.clear_path?(original_coord, potential_coord)
+        next unless square.piece.valid_move?(original_coord, potential_coord, board)&&board.clear_path?(original_coord, potential_coord)
 
         dupe_board = board.copy_board
         dupe_board.move(original_coord, potential_coord)
