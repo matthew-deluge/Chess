@@ -20,9 +20,9 @@ class Pawn < Piece
       [initial, final]
     elsif (final[1]-initial[1]).abs == 2 && initial[0] == final[0] # returns path if pawn moves two spaces
       if @color == 'white'
-        [initial, [final[0], final[0]+1], final]
+        [initial, [final[0], final[1]-1], final]
       elsif @color == 'black'
-        [initial, [final[0], final[0]-1], final]
+        [initial, [final[0], final[1]+1], final]
       end
     end
   end
@@ -52,8 +52,13 @@ class Pawn < Piece
   def white_en_passant?(initial, final, board)
     return false unless initial[1] == 5
 
-    last_move = board.move_array.last()
-    target = board.find_square(last_move[1]).piece
+    last_move = board.move_array.last
+    print last_move
+    landing_square = last_move.last
+    print landing_square
+    target_square = board.find_square(last_move.last)
+    print target_square
+    target = target_square.piece
 
     if target.is_a?(Pawn) && last_move[1][1]+1 == final[1] && last_move[1][0] == final[0]
       board.captured_pieces.push(target)
@@ -68,8 +73,11 @@ class Pawn < Piece
   def black_en_passant?(initial, final, board)
     return false unless initial[1] == 4
 
-    last_move = board.move_array.last()
-    target = board.find_square(last_move[1]).piece
+    last_move = board.move_array.last
+    print last_move
+    target_square = board.find_square(last_move[1])
+    print target_square
+    target = target = target_square.piece
     if target.is_a?(Pawn) && last_move[1][1] - 1 == final[1] && last_move[1][0] == final[0]
       board.captured_pieces.push(target)
       board.find_square(last_move[1]).piece = nil
@@ -78,8 +86,6 @@ class Pawn < Piece
       false
     end
   end
-
-
 
   def black_valid_move? (initial, final, board)
     if final[1] == initial[1]-1

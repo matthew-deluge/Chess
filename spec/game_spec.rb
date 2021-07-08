@@ -1,6 +1,6 @@
 # rspec file to test the Game class
 
-require_relative '../game.rb'
+require_relative '../lib/game.rb'
 
 describe Game do
   describe '#valid_response?' do

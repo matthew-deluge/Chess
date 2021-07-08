@@ -46,13 +46,15 @@ class Game
     player_piece = get_player_piece(player_color)
     puts 'Please enter the coordinates of where you want to move your piece'
     player_input = [player_piece, gets.chomp]
+    puts "you put in #{player_input[0]} to #{convert_to_coordinates(player_input[1])}"
     until valid_response?(player_input[1])
       puts 'Please enter the coordinates as two numbers seperated by a comma'
-      player_input = gets.chomp
+      player_input = get_player_move(player_color, board)
     end
     until board.clear_path?(player_input[0], convert_to_coordinates(player_input[1]))
       puts 'Invalid destination'
       player_input = get_player_move(player_color, board)
+     
     end
     while move_in_check?(player_color, player_input[0], convert_to_coordinates(player_input[1]), board)
       puts 'Illegal move: king in check'
@@ -104,8 +106,11 @@ class Game
   def play
     #print instructions
     #@board.print_board(@board)
+    puts "past moves: #{board.move_array}"
     until checkmate?
+      puts "past moves: #{board.move_array}"
       player_move('white')
+      puts "past moves: #{board.move_array}"
       player_move('black')
     end
     #endgame

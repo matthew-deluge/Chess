@@ -4,6 +4,9 @@ require_relative './square'
 require_relative './pieces/rook'
 require_relative './pieces/king'
 require_relative './pieces/bishop'
+require_relative './pieces/pawn'
+require_relative './pieces/knight'
+require_relative './pieces/queen'
 require_relative './arrangement'
 require_relative './display'
 
@@ -95,8 +98,6 @@ class Board
   end
 
   def move(origin_coord, target_coord)
-    return unless clear_path?(origin_coord, target_coord)
-
     if find_square(target_coord).piece.nil?
       move_piece(origin_coord, target_coord)
     else
