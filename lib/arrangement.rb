@@ -12,10 +12,10 @@ module Arrangement
       coord: [3, 1]},
 
     { piece: King.new('white', '♚'),
-      coord: [4, 1] },
+      coord: [5, 1] },
 
     { piece: Queen.new('white', '♛'),
-      coord: [5, 1] },
+      coord: [4, 1] },
 
     { piece: Bishop.new('white', '♝'),
       coord: [6, 1] },
@@ -36,10 +36,10 @@ module Arrangement
       coord: [3, 8] },
 
     { piece: King.new('black', '♔'),
-      coord: [4, 8] },
+      coord: [5, 8] },
 
     { piece: Queen.new('black', '♕'),
-      coord: [5, 8] },
+      coord: [4, 8] },
 
     { piece: Bishop.new('black', '♗'),
       coord: [6, 8] },

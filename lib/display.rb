@@ -9,11 +9,11 @@ module Display
       board.node_array.reverse.each { |square| row.push(square) if square.coord[1] == row_number }
       print_row(row, row_number)
     end
-    puts " 8  7  6  5  4  3  2  1 \n".green
+    puts " 1  2  3  4  5  6  7  8 \n".green
   end
 
   def print_row(row, row_number)
-    row.each do |square|
+    row.reverse.each do |square|
       if square.piece.nil?
         if (square.coord[0]+square.coord[1]).even?
           print " B ".light_blue
