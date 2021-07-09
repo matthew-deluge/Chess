@@ -162,7 +162,7 @@ describe King do
     context 'When called on a white piece' do
       subject(:castle_king) { described_class.new('white', 'K') }
 
-      it 'returns true if castling is an option on right side' do
+      it 'returns true if castling is an option on king side' do
         board = Board.new
         board.add_piece( [8,1], Rook.new('white', 'r') )
         board.add_piece( [5,1], castle_king)
@@ -216,6 +216,47 @@ describe King do
       end
     end
   end
+
+  describe 'castle_move' do
+    subject(:castle_move_king) { described_class.new('white', 'K') }
+    it 'moves king when castled kingside' do
+      board = Board.new
+      board.add_piece( [8,1], Rook.new('white', 'r') )
+      board.add_piece( [5,1], castle_move_king)
+      castle_move_king.castle_move([5,1], [7,1], board)
+      king_check = board.find_square([7,1]).piece.is_a?(King)
+      expect(king_check).to be(true)
+    end
+
+    it 'moves rook when castled kingside' do
+      board = Board.new
+      board.add_piece( [8,1], Rook.new('white', 'r') )
+      board.add_piece( [5,1], castle_move_king)
+      castle_move_king.castle_move([5,1], [7,1], board)
+      rook_check = board.find_square([6,1]).piece.is_a?(Rook)
+      expect(rook_check).to be(true)
+    end
+
+    it 'moves king when castled queenside' do
+      board = Board.new
+      board.add_piece( [1,1], Rook.new('white', 'r') )
+      board.add_piece( [5,1], castle_move_king)
+      castle_move_king.castle_move([5,1], [3,1], board)
+      king_check = board.find_square([3,1]).piece.is_a?(King)
+      expect(king_check).to be(true)
+    end
+
+    it 'moves rook when castled queenside' do
+      board = Board.new
+      board.add_piece( [1,1], Rook.new('white', 'r') )
+      board.add_piece( [5,1], castle_move_king)
+      castle_move_king.castle_move([5,1], [3,1], board)
+      rook_check = board.find_square([4,1]).piece.is_a?(Rook)
+      expect(rook_check).to be(true)
+    end
+  end
+
+    
 end
 
 describe Bishop do 

@@ -67,6 +67,27 @@ class King < Piece
     false
   end
 
+  def castle_move(initial, final, board)
+    @color == 'white' ? rank = 1 : rank = 8
+
+    if final == [7, rank]
+      rook = board.find_square([8,rank]).piece
+      king = board.find_square(initial).piece
+      board.find_square([8,rank]).piece = nil
+      board.find_square(initial).piece = nil
+      board.find_square(final).piece = king
+      board.find_square([6,rank]).piece = rook
+
+    elsif final == [3, rank]
+      rook = board.find_square([1,rank]).piece
+      king = board.find_square(initial).piece
+      board.find_square([1,rank]).piece = nil
+      board.find_square(initial).piece = nil
+      board.find_square(final).piece = king
+      board.find_square([4,rank]).piece = rook
+    end
+  end
+
   private
 
   def castle_check?(squares_to_check, rank, board)
@@ -75,7 +96,6 @@ class King < Piece
       board_copy.find_square([5, rank]).piece = nil
       test_king = duplicate
       board_copy.add_piece(square, test_king)
-      board_copy.print_board(board_copy)
       return false if test_king.check?(square, board_copy)
     end
     true
