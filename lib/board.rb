@@ -41,15 +41,26 @@ class Board
     board
   end
 
-  def print_board_data
-    @node_array.each do |square|
-      print square.coord
-      print ":"
-      unless square.piece.nil?
-        print "#{square.piece.symbol}"
-      end
-      print "\n"
-    end
+  def save_file
+    board_state = {
+      node_array: @node_array,
+      captured_pieces: @captured_pieces,
+      move_array: @move_array
+    }.to_json
+    File.open('lib/save_data.json', 'w') { |file| file.write(board_state) }
+    puts 'File saved, see you again soon!'
+    exit
+  end
+
+  def load_file
+    file = File.read('lib/save_data.json')
+    board_state = JSON.parse(file)
+    @node_array = board_state['node_array']
+    @captured_pieces = board_state['captured_pieces']
+    @move_array = board_state['move_array']
+    puts "Welcome back!"
+    p board
+    board.print_board(board)
   end
 
   def set_pieces
