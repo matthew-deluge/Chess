@@ -62,31 +62,45 @@ describe Board do
     subject(:move_board) {described_class.new}
     context 'when path is open' do
       it 'moves the piece to the target square'do
-        move_board.set_pieces
+        move_board.add_piece([1,1], Rook.new('white', 'wr'))
         move_board.move([1, 1], [1, 3])
-        expect(move_board.find_square([1, 3]).piece.symbol).to eq('♜')
+        expect(move_board.find_square([1, 3]).piece.symbol).to eq('wr')
       end
     end
     context 'when path is not open' do
       it 'does nothing' do
-        move_board.set_pieces
-        move_board.move([1, 1], [1, 3])
-        move_board.move([1,8], [1,1])
-        expect(move_board.find_square([1,8]).piece.symbol).to eq('♖')
+        move_board.add_piece([1,3], Pawn.new('white', 'p'))
+        move_board.add_piece([1,7], Rook.new('black', 'r'))
+        move_board.move([1,7], [1,1])
+        expect(move_board.find_square([1,1]).piece.symbol).to eq('r')
       end
     end  
     context 'when piece would be captured' do
-      xit 'returns piece' do
-        move_board.set_pieces
-        move_board.move([1, 1], [1, 8])
-        expect(move_board.captured_pieces[0].symbol).to eq('♖')
+      it 'returns piece' do
+        move_board.add_piece([1,1], Pawn.new('white', 'wp'))
+        move_board.add_piece([1,7], Rook.new('black', 'br'))
+        move_board.move([1, 7], [1, 1])
+        expect(move_board.captured_pieces[0].symbol).to eq('wp')
       end
       it 'replaces captured piece with capturing piece' do
-        move_board.set_pieces
-        move_board.move([1, 1], [1, 8])
-        expect(move_board.find_square([1,8]).piece.symbol).to eq('♜')
+        move_board.add_piece([1,1], Pawn.new('white', 'wp'))
+        move_board.add_piece([1,8], Rook.new('black', 'br'))
+        move_board.move([1, 8], [1, 1])
+        expect(move_board.find_square([1, 1]).piece.symbol).to eq('br')
       end
     end
 
   end
+
+  describe '#promote_pawn' do
+    subject(:promote_board) { described_class.new}
+
+    it 'promotes a passed pawn to the passed piece' do
+      promote_board.promote_pawn([1,1], 'white', 'queen')
+      piece = promote_board.find_square([1, 1]).piece.symbol
+      expect(piece).to eq('♛')
+    end
+  end
+
+
 end

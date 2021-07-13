@@ -99,6 +99,6 @@ module Arrangement
       coord: [8, 7] }
     ]
 
-  WHITE_PIECE_ARRAY = ['♚','♛','♝','♞','♟','♜']
-  BLACK_PIECE_ARRAY = ['♗','♘','♙','♔','♕','♖']
+  WHITE_PIECE_ARRAY = ['♟', '♞', '♝', '♜', '♚', '♛']
+  BLACK_PIECE_ARRAY = ['♙', '♘', '♗', '♖', '♔', '♕']
 end

@@ -41,28 +41,6 @@ class Board
     board
   end
 
-  def save_file
-    board_state = {
-      node_array: @node_array,
-      captured_pieces: @captured_pieces,
-      move_array: @move_array
-    }.to_json
-    File.open('lib/save_data.json', 'w') { |file| file.write(board_state) }
-    puts 'File saved, see you again soon!'
-    exit
-  end
-
-  def load_file
-    file = File.read('lib/save_data.json')
-    board_state = JSON.parse(file)
-    @node_array = board_state['node_array']
-    @captured_pieces = board_state['captured_pieces']
-    @move_array = board_state['move_array']
-    puts "Welcome back!"
-    p board
-    board.print_board(board)
-  end
-
   def set_pieces
     Arrangement::SET_UP_HASH.each do |piece|
       add_piece(piece[:coord], piece[:piece])
@@ -116,6 +94,40 @@ class Board
     end
     find_square(target_coord).piece.moved = true
     move_array.push([origin_coord, target_coord])
+    check_promotion(target_coord)
+  end
+
+  def check_promotion(target_coord)
+    if find_square(target_coord).piece.is_a?(Pawn) && target_coord[1] == 1 
+      promote_pawn(target_coord, 'black')
+    elsif find_square(target_coord).piece.is_a?(Pawn) && target_coord[1] == 8
+      promote_pawn(target_coord, 'white')
+    end
+  end
+
+  def promote_pawn(target_coord, player_color, piece = prompt_player)
+    square = find_square(target_coord)
+    player_color = 'white' ? piece_array = Arrangement::WHITE_PIECE_ARRAY : piece_array = Arrangement::BLACK_PIECE_ARRAY
+    case piece
+    when 'queen'
+      square.piece = Queen.new(player_color, piece_array[5])
+    when 'knight'
+      square.piece = Knight.new(player_color, piece_array[1])
+    when 'bishop'
+      square.piece = Bishop.new(player_color, piece_array[2])
+    when 'rook'
+      square.piece = Rook.new(player_color, piece_array[3])
+    end
+  end
+
+  def prompt_player
+    player_input = ''
+    potential_responses = ['queen', 'knight', 'bishop', 'rook']
+    until potential_responses.include?(player_input)
+      puts 'What piece would you like to promote your pawn to? (type queen, bishop, rook, or knight)'
+      player_input = gets.chomp.downcase
+    end
+    player_input
   end
 
   def capture_piece(origin_coord, target_coord)

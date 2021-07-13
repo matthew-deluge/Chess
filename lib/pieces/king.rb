@@ -27,7 +27,7 @@ class King < Piece
       next if square.piece.nil?
 
       unless square.piece.color == @color
-        return true if square.piece.valid_move?(square.coord, king_square) && board.clear_path?(square.coord, king_square)
+        return true if square.piece.valid_move?(square.coord, king_square, board) && board.clear_path?(square.coord, king_square)
       end
     end
     false

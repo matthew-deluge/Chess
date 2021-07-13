@@ -100,7 +100,7 @@ class Game
 
   def checkmate?
     @board.node_array.each do |square|
-      unless square.piece.nil?
+      unless square.piece.nil? 
         if square.piece.is_a?(King)
           return true if square.piece.checkmate?(square.coord, @board)
         end
@@ -124,11 +124,13 @@ class Game
     file = File.read('save_data.yml')
     @board = YAML::load(file)
     puts "Welcome back!"
-    board.print_board(board)
+    @board.print_board(@board)
   end
 
   def play
     #print instructions
+    #load_file
+    #@current_player = black if black_turn?
     until checkmate?
       player_move
     end
