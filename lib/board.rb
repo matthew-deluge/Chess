@@ -74,9 +74,7 @@ class Board
     return false if piece.nil? || !piece.valid_move?(origin_square, target_square, self)
 
     target_piece = find_square(target_square).piece
-    unless target_piece.nil?
-      return false if target_piece.color == piece.color
-    end 
+    return false if !target_piece.nil? && target_piece.color == piece.color
 
     path = piece.generate_path(origin_square, target_square)
     path[1..-2].each do |coord|
@@ -99,24 +97,25 @@ class Board
 
   def check_promotion(target_coord)
     if find_square(target_coord).piece.is_a?(Pawn) && target_coord[1] == 1 
-      promote_pawn(target_coord, 'black')
+      promote_pawn(target_coord)
     elsif find_square(target_coord).piece.is_a?(Pawn) && target_coord[1] == 8
-      promote_pawn(target_coord, 'white')
+      promote_pawn(target_coord)
     end
   end
 
-  def promote_pawn(target_coord, player_color, piece = prompt_player)
+  def promote_pawn(target_coord, piece = prompt_player)
     square = find_square(target_coord)
-    player_color = 'white' ? piece_array = Arrangement::WHITE_PIECE_ARRAY : piece_array = Arrangement::BLACK_PIECE_ARRAY
+    color = square.piece.color
+    color == 'white' ? piece_array = Arrangement::WHITE_PIECE_ARRAY : piece_array = Arrangement::BLACK_PIECE_ARRAY
     case piece
     when 'queen'
-      square.piece = Queen.new(player_color, piece_array[5])
+      square.piece = Queen.new(color, piece_array[5])
     when 'knight'
-      square.piece = Knight.new(player_color, piece_array[1])
+      square.piece = Knight.new(color, piece_array[1])
     when 'bishop'
-      square.piece = Bishop.new(player_color, piece_array[2])
+      square.piece = Bishop.new(color, piece_array[2])
     when 'rook'
-      square.piece = Rook.new(player_color, piece_array[3])
+      square.piece = Rook.new(color, piece_array[3])
     end
   end
 

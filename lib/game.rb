@@ -51,18 +51,18 @@ class Game
 
   def get_player_move(board=@board)
     player_piece = get_player_piece
-    puts 'Please enter the coordinates of where you want to move your piece'
+    puts 'Please enter the coordinates of where you want to move your piece:'
     player_input = [player_piece, gets.chomp]
     until valid_response?(player_input[1])
-      puts 'Please enter the coordinates as two numbers seperated by a comma'
+      puts "\nPlease enter the coordinates as two numbers seperated by a comma"
       player_input = get_player_move(board)
     end
     until board.clear_path?(player_input[0], convert_to_coordinates(player_input[1]))
-      puts 'Invalid destination'
+      puts "\nInvalid destination"
       player_input = get_player_move(board)
     end
     while move_in_check?(@current_player, player_input[0], convert_to_coordinates(player_input[1]), board)
-      puts 'Illegal move: king in check'
+      puts "\nIllegal move: king in check"
       player_input = get_player_move(board)
     end
     [player_input[0], convert_to_coordinates(player_input[1])]
@@ -80,7 +80,6 @@ class Game
     return false unless input.include?(',')
 
     split_input = input.strip.split(',')
-    p input
     if split_input.length == 2 && split_input[0].is_integer? && split_input[1].is_integer?
       return split_input[0].to_i >= 1 && split_input[0].to_i <= 8 && split_input[1].to_i >= 1 && split_input[1].to_i <= 8
     end
@@ -137,8 +136,3 @@ class Game
     #endgame
   end
 end
-  
-game = Game.new
-game.play
-
-    
