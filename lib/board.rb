@@ -70,8 +70,8 @@ class Board
   end
   
   def clear_path?(origin_square, target_square)
-    return true if castle_check(origin_square, target_square)
     piece = find_square(origin_square).piece
+    return true if piece.is_a?(King) && piece.castle?(origin_square, target_square, self)
     return false if piece.nil? || !piece.valid_move?(origin_square, target_square, self)
 
     target_piece = find_square(target_square).piece
@@ -86,6 +86,10 @@ class Board
   end
 
   def move(origin_coord, target_coord)
+    piece = find_square(origin_coord).piece
+    if piece.is_a?(King) && piece.castle?(origin_coord, target_coord, self)
+      return move_castle(origin_coord, target_coord)
+    end
     if find_square(target_coord).piece.nil?
       move_piece(origin_coord, target_coord)
     else
@@ -139,18 +143,13 @@ class Board
 
   private
 
-  def castle_check(initial_square, target_square)
-    piece = find_square(initial_square).piece
-    return false unless piece.is_a?(King)
-
-    piece.castle?(initial_square, target_square, self)
-  end
-
-
-
   def move_piece(origin_coord, target_coord)
     find_square(target_coord).piece = find_square(origin_coord).piece
     find_square(origin_coord).piece = nil
   end
 
+  def move_castle(origin_coord, target_coord)
+    piece = find_square(origin_coord).piece
+    piece.castle_move(origin_coord, target_coord, self)
+  end
 end

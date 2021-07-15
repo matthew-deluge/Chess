@@ -10,12 +10,12 @@ class King < Piece
   end
 
   def valid_move?(initial, final, board = nil)
-    if castle?(initial, final, board)
-      castle_move(initial, final, board)
-      true
-    else
+    #if castle?(initial, final, board)
+      #castle_move(initial, final, board)
+      #true
+    #else
       valid_vertical?(initial,final)||valid_horizontal?(initial,final)||valid_diaganol?(initial, final)
-    end
+    #end
   end
 
   def generate_path(initial, final)
