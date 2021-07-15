@@ -47,6 +47,7 @@ class ComputerGame < Game
   end
 
   def play
+    print_instructions
     if @computer_color == 'white'
       until checkmate?
         computer_move
