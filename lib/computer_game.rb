@@ -11,12 +11,11 @@ class ComputerGame < Game
 
 
   def computer_move
+    return if checkmate?
+
     move_set = collect_potential_moves
     move = move_set.sample
-    print move
-    while move_in_check?(@computer_color, move[0], move[1])
-      move = move_set.sample
-    end
+    move = move_set.sample while move_in_check?(@computer_color, move[0], move[1])
     board.move(move[0], move[1])
     @current_player == 'white' ? @current_player = 'black' : @current_player = 'white'
   end
@@ -34,10 +33,11 @@ class ComputerGame < Game
 
   def prompt_player_color
     options = ['1','2']
-    puts "What color would you like to play as? (enter the number)\n\n1) White\n2)Black"
+    puts "What color would you like to play as? (enter the number)\n\n1)White\n2)Black"
     input = gets.chomp
-    until options.include?(input)
-      'Please enter the number of the color you would like to play as:\n\n1) White\n2)Black'
+    unless options.include?(input)
+      puts 'Please enter the number of the color you would like to play as:\n\n1) White\n2)Black'
+      input = gets.chomp
     end
     if input == '1'
       'black'
@@ -48,21 +48,17 @@ class ComputerGame < Game
 
   def play
     print_instructions
-    if @computer_color == 'white'
+    if @computer_color == @current_player
       until checkmate?
         computer_move
         player_move
       end
-    elsif @computer_color == 'black'
+    elsif @computer_color != @current_player
       until checkmate?
         player_move
         computer_move
       end
     end
+    puts "Congrats #{@current_player}, you have checkmated your opponent, nice work!"
   end
 end
-
-game = ComputerGame.new
-game.play
-
-

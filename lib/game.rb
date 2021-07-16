@@ -27,7 +27,7 @@ class Game
     until checkmate?
       player_move
     end
-    puts "Congrats #{current_player}, you have checkmated your opponent, nice work!"
+    puts "Congrats #{@current_player}, you have checkmated your opponent, nice work!"
   end
 
   def save_file
@@ -41,7 +41,7 @@ class Game
     file = File.read('save_data.yml')
     @board = YAML::load(file)
     puts "Welcome back!"
-    @board.print_board(@board)
+    play
   end
 
   private
@@ -51,6 +51,7 @@ class Game
   end
 
   def player_move(board = @board)
+    return if checkmate?
     clear_screen
     board.print_board(board)
     player_move = get_player_move
@@ -131,6 +132,11 @@ class Game
     end
     false
   end
+
+  def draw?
+    check_piece_draw && check_move_draw && board.move_array.length < 100
+  end
+
 
   def black_turn?
     board.find_square(board.move_array[-1][1]).piece.color == 'white'
