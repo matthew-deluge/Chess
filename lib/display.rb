@@ -27,9 +27,9 @@ module Display
     puts " #{row_number}".green
   end
 
-end       
+end
 
-  # allows for colored strings: https://stackoverflow.com/questions/1489183/colorized-ruby-output-to-the-terminal
+# allows for colored strings: https://stackoverflow.com/questions/1489183/colorized-ruby-output-to-the-terminal
 class String
   # colorization
   def colorize(color_code)

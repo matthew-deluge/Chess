@@ -52,49 +52,49 @@ module Arrangement
 
     { piece: Pawn.new('white', '♟'),
       coord: [1, 2] },
-    
+
     { piece: Pawn.new('white', '♟'),
       coord: [2, 2] },
 
     { piece: Pawn.new('white', '♟'),
       coord: [3, 2] },
-    
+
     { piece: Pawn.new('white', '♟'),
       coord: [4, 2] },
 
     { piece: Pawn.new('white', '♟'),
       coord: [5, 2] },
-    
+
     { piece: Pawn.new('white', '♟'),
       coord: [6, 2] },
 
     { piece: Pawn.new('white', '♟'),
       coord: [7, 2] },
-    
+
     { piece: Pawn.new('white', '♟'),
       coord: [8, 2] },
 
     { piece: Pawn.new('black', '♙'),
       coord: [1, 7] },
-    
+
     { piece: Pawn.new('black', '♙'),
       coord: [2, 7] },
 
     { piece: Pawn.new('black', '♙'),
       coord: [3, 7] },
-    
+
     { piece: Pawn.new('black', '♙'),
       coord: [4, 7] },
 
     { piece: Pawn.new('black', '♙'),
       coord: [5, 7] },
-    
+
     { piece: Pawn.new('black', '♙'),
       coord: [6, 7] },
 
     { piece: Pawn.new('black', '♙'),
       coord: [7, 7] },
-    
+
     { piece: Pawn.new('black', '♙'),
       coord: [8, 7] }
     ]
