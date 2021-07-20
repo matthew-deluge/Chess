@@ -40,7 +40,8 @@ class Menu
       when '4'
         play_saved_computer_game
       when '5'
-        Exit
+        puts "Have a nice day!"
+        exit
       end
     end
   end
