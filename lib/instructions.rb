@@ -10,7 +10,7 @@ module Instructions
     puts 'For example, the white kings pawn starts on 5,2, and could be moved to 5,3 or 5,4 on its first turn'
     sleep(1)
     puts 'if you need to save and exit, just type save instead of selecting a piece. Good luck!'
-    puts'Press C to go back to the menu, and press any other key to continue.'
+    puts 'Press C to go back to the menu, and press any other key to continue.'
     input = gets.chomp
     abort('thank you!') if input.downcase == 'c'
   end

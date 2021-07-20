@@ -1,7 +1,7 @@
 # game class, creates a new board and allows for the movement and capture of pieces
 
-require_relative "./board"
-require_relative "./instructions"
+require_relative './board'
+require_relative './instructions'
 
 
 class String
@@ -28,10 +28,11 @@ class Game
 
   def play
     print_instructions
-    until checkmate? || 
+    until checkmate? || draw?
       player_move
     end
-    puts "Congrats #{@current_player}, you have checkmated your opponent, nice work!"
+    puts "Congrats #{@current_player}, you have checkmated your opponent, nice work! Press any key to continue."
+    gets.chomp
   end
 
   def save_file
@@ -44,7 +45,7 @@ class Game
   def load_file
     file = File.read('save_data.yml')
     @board = YAML::load(file)
-    puts "Welcome back!"
+    puts 'Welcome back!'
     play
   end
 
@@ -138,8 +139,6 @@ class Game
     end
     false
   end
-
-
 
   def check_piece_draw(board = @board)
     piece_square_array = board.node_array.select { |square| !square.piece.nil? }

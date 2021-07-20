@@ -1,0 +1,491 @@
+--- !ruby/object:Board
+coord_array:
+- &1
+  - 1
+  - 1
+- &2
+  - 1
+  - 2
+- &3
+  - 1
+  - 3
+- &4
+  - 1
+  - 4
+- &5
+  - 1
+  - 5
+- &6
+  - 1
+  - 6
+- &7
+  - 1
+  - 7
+- &8
+  - 1
+  - 8
+- &9
+  - 2
+  - 1
+- &10
+  - 2
+  - 2
+- &11
+  - 2
+  - 3
+- &12
+  - 2
+  - 4
+- &13
+  - 2
+  - 5
+- &14
+  - 2
+  - 6
+- &15
+  - 2
+  - 7
+- &16
+  - 2
+  - 8
+- &17
+  - 3
+  - 1
+- &18
+  - 3
+  - 2
+- &19
+  - 3
+  - 3
+- &20
+  - 3
+  - 4
+- &21
+  - 3
+  - 5
+- &22
+  - 3
+  - 6
+- &23
+  - 3
+  - 7
+- &24
+  - 3
+  - 8
+- &25
+  - 4
+  - 1
+- &26
+  - 4
+  - 2
+- &27
+  - 4
+  - 3
+- &28
+  - 4
+  - 4
+- &29
+  - 4
+  - 5
+- &30
+  - 4
+  - 6
+- &31
+  - 4
+  - 7
+- &32
+  - 4
+  - 8
+- &33
+  - 5
+  - 1
+- &34
+  - 5
+  - 2
+- &35
+  - 5
+  - 3
+- &36
+  - 5
+  - 4
+- &37
+  - 5
+  - 5
+- &38
+  - 5
+  - 6
+- &39
+  - 5
+  - 7
+- &40
+  - 5
+  - 8
+- &41
+  - 6
+  - 1
+- &42
+  - 6
+  - 2
+- &43
+  - 6
+  - 3
+- &44
+  - 6
+  - 4
+- &45
+  - 6
+  - 5
+- &46
+  - 6
+  - 6
+- &47
+  - 6
+  - 7
+- &48
+  - 6
+  - 8
+- &49
+  - 7
+  - 1
+- &50
+  - 7
+  - 2
+- &51
+  - 7
+  - 3
+- &52
+  - 7
+  - 4
+- &53
+  - 7
+  - 5
+- &54
+  - 7
+  - 6
+- &55
+  - 7
+  - 7
+- &56
+  - 7
+  - 8
+- &57
+  - 8
+  - 1
+- &58
+  - 8
+  - 2
+- &59
+  - 8
+  - 3
+- &60
+  - 8
+  - 4
+- &61
+  - 8
+  - 5
+- &62
+  - 8
+  - 6
+- &63
+  - 8
+  - 7
+- &64
+  - 8
+  - 8
+node_array:
+- !ruby/object:Square
+  coord: *1
+  piece: !ruby/object:Rook
+    color: white
+    symbol: "♜"
+    moved: false
+- !ruby/object:Square
+  coord: *2
+  piece: !ruby/object:Pawn
+    color: white
+    symbol: "♟"
+    moved: false
+- !ruby/object:Square
+  coord: *3
+  piece: 
+- !ruby/object:Square
+  coord: *4
+  piece: 
+- !ruby/object:Square
+  coord: *5
+  piece: !ruby/object:Pawn
+    color: black
+    symbol: "♙"
+    moved: true
+- !ruby/object:Square
+  coord: *6
+  piece: 
+- !ruby/object:Square
+  coord: *7
+  piece: 
+- !ruby/object:Square
+  coord: *8
+  piece: !ruby/object:Rook
+    color: black
+    symbol: "♖"
+    moved: false
+- !ruby/object:Square
+  coord: *9
+  piece: !ruby/object:Knight
+    color: white
+    symbol: "♞"
+    moved: false
+- !ruby/object:Square
+  coord: *10
+  piece: !ruby/object:Pawn
+    color: white
+    symbol: "♟"
+    moved: false
+- !ruby/object:Square
+  coord: *11
+  piece: 
+- !ruby/object:Square
+  coord: *12
+  piece: 
+- !ruby/object:Square
+  coord: *13
+  piece: 
+- !ruby/object:Square
+  coord: *14
+  piece: 
+- !ruby/object:Square
+  coord: *15
+  piece: !ruby/object:Pawn
+    color: black
+    symbol: "♙"
+    moved: false
+- !ruby/object:Square
+  coord: *16
+  piece: !ruby/object:Knight
+    color: black
+    symbol: "♘"
+    moved: false
+- !ruby/object:Square
+  coord: *17
+  piece: !ruby/object:Bishop
+    color: white
+    symbol: "♝"
+    moved: false
+- !ruby/object:Square
+  coord: *18
+  piece: !ruby/object:Pawn
+    color: white
+    symbol: "♟"
+    moved: false
+- !ruby/object:Square
+  coord: *19
+  piece: 
+- !ruby/object:Square
+  coord: *20
+  piece: 
+- !ruby/object:Square
+  coord: *21
+  piece: 
+- !ruby/object:Square
+  coord: *22
+  piece: 
+- !ruby/object:Square
+  coord: *23
+  piece: !ruby/object:Pawn
+    color: black
+    symbol: "♙"
+    moved: false
+- !ruby/object:Square
+  coord: *24
+  piece: !ruby/object:Bishop
+    color: black
+    symbol: "♗"
+    moved: false
+- !ruby/object:Square
+  coord: *25
+  piece: !ruby/object:Queen
+    color: white
+    symbol: "♛"
+    moved: false
+- !ruby/object:Square
+  coord: *26
+  piece: !ruby/object:Pawn
+    color: white
+    symbol: "♟"
+    moved: false
+- !ruby/object:Square
+  coord: *27
+  piece: 
+- !ruby/object:Square
+  coord: *28
+  piece: 
+- !ruby/object:Square
+  coord: *29
+  piece: 
+- !ruby/object:Square
+  coord: *30
+  piece: 
+- !ruby/object:Square
+  coord: *31
+  piece: !ruby/object:Pawn
+    color: black
+    symbol: "♙"
+    moved: false
+- !ruby/object:Square
+  coord: *32
+  piece: !ruby/object:Queen
+    color: black
+    symbol: "♕"
+    moved: false
+- !ruby/object:Square
+  coord: *33
+  piece: !ruby/object:King
+    color: white
+    symbol: "♚"
+    moved: false
+- !ruby/object:Square
+  coord: *34
+  piece: 
+- !ruby/object:Square
+  coord: *35
+  piece: 
+- !ruby/object:Square
+  coord: *36
+  piece: !ruby/object:Pawn
+    color: white
+    symbol: "♟"
+    moved: true
+- !ruby/object:Square
+  coord: *37
+  piece: 
+- !ruby/object:Square
+  coord: *38
+  piece: 
+- !ruby/object:Square
+  coord: *39
+  piece: !ruby/object:Pawn
+    color: black
+    symbol: "♙"
+    moved: false
+- !ruby/object:Square
+  coord: *40
+  piece: !ruby/object:King
+    color: black
+    symbol: "♔"
+    moved: false
+- !ruby/object:Square
+  coord: *41
+  piece: !ruby/object:Bishop
+    color: white
+    symbol: "♝"
+    moved: false
+- !ruby/object:Square
+  coord: *42
+  piece: !ruby/object:Pawn
+    color: white
+    symbol: "♟"
+    moved: false
+- !ruby/object:Square
+  coord: *43
+  piece: 
+- !ruby/object:Square
+  coord: *44
+  piece: 
+- !ruby/object:Square
+  coord: *45
+  piece: 
+- !ruby/object:Square
+  coord: *46
+  piece: 
+- !ruby/object:Square
+  coord: *47
+  piece: !ruby/object:Pawn
+    color: black
+    symbol: "♙"
+    moved: false
+- !ruby/object:Square
+  coord: *48
+  piece: !ruby/object:Bishop
+    color: black
+    symbol: "♗"
+    moved: false
+- !ruby/object:Square
+  coord: *49
+  piece: !ruby/object:Knight
+    color: white
+    symbol: "♞"
+    moved: false
+- !ruby/object:Square
+  coord: *50
+  piece: !ruby/object:Pawn
+    color: white
+    symbol: "♟"
+    moved: false
+- !ruby/object:Square
+  coord: *51
+  piece: 
+- !ruby/object:Square
+  coord: *52
+  piece: 
+- !ruby/object:Square
+  coord: *53
+  piece: 
+- !ruby/object:Square
+  coord: *54
+  piece: 
+- !ruby/object:Square
+  coord: *55
+  piece: !ruby/object:Pawn
+    color: black
+    symbol: "♙"
+    moved: false
+- !ruby/object:Square
+  coord: *56
+  piece: !ruby/object:Knight
+    color: black
+    symbol: "♘"
+    moved: false
+- !ruby/object:Square
+  coord: *57
+  piece: !ruby/object:Rook
+    color: white
+    symbol: "♜"
+    moved: false
+- !ruby/object:Square
+  coord: *58
+  piece: !ruby/object:Pawn
+    color: white
+    symbol: "♟"
+    moved: false
+- !ruby/object:Square
+  coord: *59
+  piece: 
+- !ruby/object:Square
+  coord: *60
+  piece: 
+- !ruby/object:Square
+  coord: *61
+  piece: 
+- !ruby/object:Square
+  coord: *62
+  piece: 
+- !ruby/object:Square
+  coord: *63
+  piece: !ruby/object:Pawn
+    color: black
+    symbol: "♙"
+    moved: false
+- !ruby/object:Square
+  coord: *64
+  piece: !ruby/object:Rook
+    color: black
+    symbol: "♖"
+    moved: false
+captured_pieces: []
+move_array:
+- - - 5
+    - 2
+  - - 5
+    - 4
+- - *7
+  - *5

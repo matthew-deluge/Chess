@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # computer_game class, allows play against a computer
 
 require_relative './game.rb'
@@ -8,7 +9,6 @@ class ComputerGame < Game
     super
     @computer_color = prompt_player_color
   end
-
 
   def computer_move
     return if checkmate?
@@ -33,6 +33,7 @@ class ComputerGame < Game
 
   def prompt_player_color
     options = ['1','2']
+    clear_screen
     puts "What color would you like to play as? (enter the number)\n\n1)White\n2)Black"
     input = gets.chomp
     unless options.include?(input)
@@ -47,6 +48,7 @@ class ComputerGame < Game
   end
 
   def play
+    clear_screen
     print_instructions
     if @computer_color == @current_player
       until checkmate?

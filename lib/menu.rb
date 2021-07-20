@@ -7,12 +7,12 @@ require_relative './computer_game'
 class Menu
 
   WELCOME_MESSAGE = 'Welcome to Chess, a program by Matthew Deluge! Press any key to begin.'.freeze
-  MENU = "Enter the number for the game you would like to play:
-  1)Chess Against A Friend\n
-  2)Load a saved game against a Friend\n
-  3)Chess Against a Computer\n
-  4)Load a saved game against a computer\n
-  5)Exit Program".freeze
+  MENU = "Enter the number for the game you would like to play:\n
+  1) Chess against a friend\n
+  2) Load a saved game against a Friend\n
+  3) Chess against a computer\n
+  4) Load a saved game against a computer\n
+  5) Exit program".freeze
 
   def clear_screen
     print "\e[2J\e[f"
@@ -67,6 +67,3 @@ class Menu
   end
 
 end
-
-menu = Menu.new
-menu.run
