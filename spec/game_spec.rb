@@ -27,11 +27,60 @@ describe Game do
     end
   end
 
-  describe '#convert_to_coordinates' do
-    subject(:convert_game) {described_class.new}
-    it 'changes a string to an array with coordinates' do
-      coordinates = convert_game.convert_to_coordinates('1, 2')
-      expect(coordinates).to eq([1, 2])
+  describe '#draw?' do
+    subject(:draw_game) {described_class.new}
+    it 'returns true when there are only two kings remaining' do
+      board = Board.new
+      board.add_piece( [1,1], King.new('white', 'k') )
+      board.add_piece( [8,8], King.new('black', 'k') )
+      result = draw_game.draw?(board)
+      expect(result).to be(true)
+    end
+
+    it 'returns true when there is only two kings and a bishop' do
+      board = Board.new
+      board.add_piece( [1,1], King.new( 'white', 'k' ) )
+      board.add_piece( [8,8], King.new( 'black', 'k' ) )
+      board.add_piece( [1,2], Bishop.new( 'black', 'b') )
+      result = draw_game.draw?(board)
+      expect(result).to be(true)
+    end
+
+    it 'returns true when there is only two kings and a knight' do
+      board = Board.new
+      board.add_piece( [1,1], King.new( 'white', 'k' ) )
+      board.add_piece( [8,8], King.new( 'black', 'k' ) )
+      board.add_piece( [1,2], Knight.new( 'black', 'b') )
+      result = draw_game.draw?(board)
+      expect(result).to be(true)
+    end
+
+    it 'returns true when there is only two kings and matching bishops' do
+      board = Board.new
+      board.add_piece( [1,1], King.new( 'white', 'k' ) )
+      board.add_piece( [8,8], King.new( 'black', 'k' ) )
+      board.add_piece( [1,2], Bishop.new( 'black', 'b') )
+      board.add_piece( [3,4], Bishop.new( 'white', 'b') )
+      result = draw_game.draw?(board)
+      expect(result).to be(true)
+    end
+
+    it 'returns false when there are two kings and a queen' do
+      board = Board.new
+      board.add_piece( [1,1], King.new( 'white', 'k' ) )
+      board.add_piece( [8,8], King.new( 'black', 'k' ) )
+      board.add_piece( [1,2], Queen.new( 'white', 'q') )
+      result = draw_game.draw?(board)
+      expect(result).to be(false)
+    end
+
+    it 'returns true when the king has no possible moves' do
+      board = Board.new
+      board.add_piece( [1,8], King.new( 'white', 'k' ) )
+      board.add_piece( [8,8], King.new( 'black', 'k' ) )
+      board.add_piece( [3,7], Queen.new( 'black', 'q') )
+      result = draw_game.draw?(board)
+      expect(result).to be(true)
     end
   end
 end

@@ -14,7 +14,7 @@ end
 class Game
   include Instructions
   require 'yaml'
-  attr_accessor :board
+  attr_accessor :board, :current_player
 
   def initialize
     @board = Board.new
@@ -22,9 +22,13 @@ class Game
     @current_player = 'white'
   end
 
+  def draw?(board = @board)
+    check_move_draw(board) || check_piece_draw(board)
+  end
+
   def play
     print_instructions
-    until checkmate?
+    until checkmate? || 
       player_move
     end
     puts "Congrats #{@current_player}, you have checkmated your opponent, nice work!"
@@ -44,6 +48,17 @@ class Game
     play
   end
 
+
+  def valid_response?(input)
+    return false unless input.include?(',')
+
+    split_input = input.strip.split(',')
+    if split_input.length == 2 && split_input[0].is_integer? && split_input[1].is_integer?
+      return split_input[0].to_i >= 1 && split_input[0].to_i <= 8 && split_input[1].to_i >= 1 && split_input[1].to_i <= 8
+    end
+    false
+  end
+
   private
 
   def clear_screen
@@ -51,7 +66,7 @@ class Game
   end
 
   def player_move(board = @board)
-    return if checkmate?
+    return if checkmate? || draw?
     clear_screen
     board.print_board(board)
     player_move = get_player_move
@@ -101,15 +116,6 @@ class Game
     split_input
   end
 
-  def valid_response?(input)
-    return false unless input.include?(',')
-
-    split_input = input.strip.split(',')
-    if split_input.length == 2 && split_input[0].is_integer? && split_input[1].is_integer?
-      return split_input[0].to_i >= 1 && split_input[0].to_i <= 8 && split_input[1].to_i >= 1 && split_input[1].to_i <= 8
-    end
-    false
-  end
 
   def move_in_check?(player_color, player_piece, player_move, board=@board)
     board_copy = board.copy_board
@@ -133,10 +139,55 @@ class Game
     false
   end
 
-  def draw?
-    check_piece_draw && check_move_draw && board.move_array.length < 100
+
+
+  def check_piece_draw(board = @board)
+    piece_square_array = board.node_array.select { |square| !square.piece.nil? }
+    return true if piece_square_array.length <= 2
+
+    if piece_square_array.length == 3
+      piece_square_array.each { |square| return false if square.piece.is_a?(Queen) || square.piece.is_a?(Rook) || square.piece.is_a?(Pawn) }
+      return true
+    elsif piece_square_array.length == 4
+      bishop_array = piece_square_array.select{ |square| square.piece.is_a?(Bishop) }
+      if bishop_array.length == 2
+        return true if bishop_draw?(bishop_array)
+      end
+    end
+    false
   end
 
+  def bishop_draw?(bishop_array)
+  print bishop_array
+  if bishop_array[0].piece.color != bishop_array[1].piece.color
+    if (bishop_array[0].coord[0] + bishop_array[0].coord[1]).even? && (bishop_array[1].coord[0] + bishop_array[1].coord[1]).even?
+      return true
+    elsif (bishop_array[0].coord[0] + bishop_array[0].coord[1]).odd? && (bishop_array[1].coord[0] + bishop_array[1].coord[1]).odd?
+      return true
+    end
+  end
+  false
+  end
+
+  def check_move_draw(board = @board)
+    king_square = board.node_array.select { |square| square.piece.is_a?(King) && square.piece.color == @current_player }
+    king = king_square[0].piece
+    return false if king.check?(king_square[0].coord, board)
+
+    square_array = board.node_array.select { |square| !square.piece.nil? && square.piece.color == @current_player}
+    square_array.each do |piece_square|
+      board.node_array.each do |target_square|
+        if piece_square.piece.valid_move?(piece_square.coord, target_square.coord, @board) && piece_square.piece.is_a?(King)
+          copy_board = board.copy_board
+          copy_board.move(piece_square.coord, target_square.coord)
+          return false unless king.check?(target_square.coord, copy_board)
+        elsif piece_square.piece.valid_move?(piece_square.coord, target_square.coord, @board) && !piece_square.piece.is_a?(King)
+          return false
+        end
+      end
+    end
+    true
+  end
 
   def black_turn?
     board.find_square(board.move_array[-1][1]).piece.color == 'white'
