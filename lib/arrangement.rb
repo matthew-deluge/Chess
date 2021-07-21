@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # includes the set up array for the pieces in the game.
 module Arrangement
 

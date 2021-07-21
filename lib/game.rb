@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # game class, creates a new board and allows for the movement and capture of pieces
 
 require_relative './board'
@@ -157,7 +159,6 @@ class Game
   end
 
   def bishop_draw?(bishop_array)
-  print bishop_array
   if bishop_array[0].piece.color != bishop_array[1].piece.color
     if (bishop_array[0].coord[0] + bishop_array[0].coord[1]).even? && (bishop_array[1].coord[0] + bishop_array[1].coord[1]).even?
       return true

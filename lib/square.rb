@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # is the different squares on the chess board
 
 class Square

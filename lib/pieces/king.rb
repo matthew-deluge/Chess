@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 
 require_relative './piece'
 
@@ -42,11 +44,11 @@ class King < Piece
       rook = board.find_square([8,rank]).piece
       return false if rook.nil? || rook.moved == true
 
-      bishop_square = board.find_square([6,rank])
-      knight_square = board.find_square([7,rank])
+      bishop_square = board.find_square([6, rank])
+      knight_square = board.find_square([7, rank])
       return false unless bishop_square.piece.nil? && knight_square.piece.nil?
 
-      return castle_check?([[7,rank], [6,rank]], rank, board)
+      return castle_check?([[7, rank], [6, rank]], rank, board)
 
     elsif final == [3, rank]
       rook = board.find_square([1,rank]).piece
@@ -66,12 +68,12 @@ class King < Piece
     @color == 'white' ? rank = 1 : rank = 8
 
     if final == [7, rank]
-      rook = board.find_square([8,rank]).piece
+      rook = board.find_square([8, rank]).piece
       king = board.find_square(initial).piece
-      board.find_square([8,rank]).piece = nil
+      board.find_square([8, rank]).piece = nil
       board.find_square(initial).piece = nil
       board.find_square(final).piece = king
-      board.find_square([6,rank]).piece = rook
+      board.find_square([6, rank]).piece = rook
 
     elsif final == [3, rank]
       rook = board.find_square([1,rank]).piece
