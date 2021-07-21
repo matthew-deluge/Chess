@@ -93,3 +93,9 @@ B W B W ♟ W B ♞ 3
 ## Saving
 
 In game, if you want to take a break, simply type 'save' when prompted to select a piece. This will save the game and exit the program. When you start the program the next time, you will be able to choose to load that game as either as a two player game or a versus computer game. Please note you can only save one game at a time. 
+
+## Next Steps
+
+Though I am going to take a break with this game for now, there are a still multiple things I would like to refactor within it. There is not enough distinction between the Game and Board classes at the moment, and I hope to move any methods dealing with the board (such as #draw?) to the board class, and leave the game specifically for player input and the game loop itself.
+
+In addition, several of the pieces (especially the King and Pawn classes) are probably over written, and can be refactored to be lighter overall. 
