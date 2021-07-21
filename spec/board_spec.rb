@@ -96,7 +96,8 @@ describe Board do
     subject(:promote_board) { described_class.new}
 
     it 'promotes a passed pawn to the passed piece' do
-      promote_board.promote_pawn([1,1], 'white', 'queen')
+      promote_board.add_piece([1,1], Pawn.new('white', 'p'))
+      promote_board.promote_pawn([1,1], 'queen')
       piece = promote_board.find_square([1, 1]).piece.symbol
       expect(piece).to eq('♛')
     end
